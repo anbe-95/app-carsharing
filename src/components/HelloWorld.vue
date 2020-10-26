@@ -90,6 +90,10 @@ export default {
         display: flex;
         align-self: flex-start;
       }
+      p {
+        display: flex;
+        align-self: flex-start;
+      }
       .v-btn {
         display: flex;
         align-self: flex-start;
