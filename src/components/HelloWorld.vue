@@ -5,17 +5,14 @@
         <option>Бургер меню</option>
       </select>
       <select name="lang" class="block__lang" v-model="defaultLang">
-        <option
-          v-for="i in langList"
-        >{{ i }}
-        </option>
+        <option :v-for="i in langList">{{ i }}</option>
       </select>
     </div>
     <div class="main">
       <div class="header">
         <h2 class="header__name">{{ msg }}</h2>
         <select name="city" class="header__city">
-          <option v-for="i in cityList">{{i}}</option>
+          <option :v-for="i in cityList">{{ i }}</option>
         </select>
       </div>
       <div class="body">
@@ -24,7 +21,8 @@
         <v-btn
           elevation="2"
           color="#0EC261"
-        >Забронировать</v-btn>
+        >Забронировать
+        </v-btn>
       </div>
       <div class="footer">
         <p class="footer__info">2016-2019 "{{ msg }}"</p>
@@ -72,9 +70,34 @@ export default {
 }
 
 .v-carousel {
+  display: flex;
+  flex-direction: column;
   width: 50%;
+  .v-responsive__sizer {
+    display: contents;
+  }
+  .v-responsive__content {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    .slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      h2 {
+        display: flex;
+        align-self: flex-start;
+      }
+      .v-btn {
+        display: flex;
+        align-self: flex-start;
+      }
+    }
+  }
   .v-window__next {
-    right: 0px;
+    right: 0;
   }
 }
 

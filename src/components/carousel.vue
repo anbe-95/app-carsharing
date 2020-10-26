@@ -59,11 +59,9 @@ export default {
 
 <style scoped>
 
-.slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
+//display: flex;
+//flex-direction: column;
+//justify-content: center;
+//align-items: center;
 
 </style>
