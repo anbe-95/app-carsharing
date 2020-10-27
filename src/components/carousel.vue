@@ -57,11 +57,35 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
 
-//display: flex;
-//flex-direction: column;
-//justify-content: center;
-//align-items: center;
+.v-carousel {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  .v-responsive__sizer {
+    display: contents;
+  }
+  .v-responsive__content {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    .slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      h2, p, .v-btn {
+        display: flex;
+        align-self: flex-start;
+        margin: 5px 0;
+      }
+    }
+  }
+  .v-window__next {
+    right: 0;
+  }
+}
 
 </style>
