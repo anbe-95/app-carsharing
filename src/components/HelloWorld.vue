@@ -15,14 +15,16 @@
       <div class="main__content">
         <div class="header">
           <h2 class="header__name"><span class="msg">{{ msg }}</span></h2>
-          <select name="city" class="header__city">
+          <input placeholder="Введите город" type="text" list="city">
+          <datalist id="city" class="header__city">
             <option
               v-for="(item, i) in cityList"
               :key="i"
+              class="header__item"
             >
               {{ item }}
             </option>
-          </select>
+          </datalist>
         </div>
         <div class="body">
           <h1>Каршеринг <span class="msg">{{ msg }}</span></h1>
@@ -70,6 +72,7 @@ export default {
 
 .home {
   display: flex;
+  height: 100vh;
 
   .block {
     display: flex;
@@ -100,46 +103,108 @@ export default {
       justify-content: space-between;
       min-height: 100%;
       padding: 5%;
-    }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      height: 10%;
-      width: 100%;
-    }
-
-    .body {
-      display: inline-flex;
-      flex-direction: column;
-      justify-content: center;
-
-      h1 {
-        font-size: 70px;
+      .header {
         display: flex;
-        flex-wrap: wrap;
-        line-height: 1;
+        justify-content: space-between;
+        height: 10%;
+        width: 100%;
+        &__item {
+          text-align: right;
+        }
       }
 
-      p {
-        font-size: 26px;
-        color: #999999;
-        margin-top: 30px;
+      .body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        h1 {
+          font-size: 70px;
+          display: flex;
+          flex-wrap: wrap;
+          line-height: 1;
+        }
+
+        p {
+          font-size: 26px;
+          color: #999999;
+          margin-top: 5%;
+        }
+
+        .v-btn {
+          width: 35%;
+          margin-top: 7%;
+          &__content {
+            color: white;
+          }
+        }
       }
 
-      .v-btn {
-        width: 250px;
-        margin-top: 60px;
-        &__content {
+      .footer {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}
+
+@media (max-width:768px), (max-height: 811px) {
+
+  .v-carousel {
+    display: none;
+  }
+}
+
+@media (max-width: 320px), (max-height: 568px) {
+
+  .home {
+    .block {
+      background-color: white;
+      &__lang {
+        display: none;
+      }
+    }
+
+    .main {
+      &__content {
+        .header {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        }
+        .body {
+          h1{
+            font-size: 32px;
+            line-height: 1.25;
+          }
+          p {
+            font-size: 18px;
+          }
+          .v-btn {
+            width: 100%;
+            height: 50px;
+          }
+        }
+        .footer {
+          height: 72px;
+          background-color: black;
           color: white;
+          display: flex;
+          flex-direction: column-reverse;
+          align-items: flex-end;
+          justify-content: center;
+
+          &__number {
+            color: #0EC261;
+          }
         }
       }
     }
+  }
 
-    .footer {
-      display: flex;
-      justify-content: space-between;
-    }
+  .v-carousel {
+    display: none;
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="nav_container">
-    <v-app-bar-nav-icon dark @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-navigation-drawer
       v-model="drawer"
       absolute

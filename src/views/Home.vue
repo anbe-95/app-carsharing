@@ -1,11 +1,10 @@
 <template>
-  <div class="home-page">
-    <HelloWorld msg="Need For Drive"/>
+  <div>
+    <HelloWorld msg="Need for drive"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
