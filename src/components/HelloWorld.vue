@@ -14,23 +14,24 @@
     <div class="main">
       <div class="main__content">
         <div class="header">
-          <h2 class="header__name"><span class="msg">{{ msg }}</span></h2>
-          <input placeholder="Введите город" type="text" list="city">
-          <datalist id="city" class="header__city">
-            <option
-              v-for="(item, i) in cityList"
-              :key="i"
-              class="header__item"
-            >
-              {{ item }}
-            </option>
-          </datalist>
+          <Navigation class="header__nav"/>
+          <div class="header__name">
+            <h2><span class="msg">{{ msg }}</span></h2>
+            <input placeholder="Введите город" type="text" list="city">
+            <datalist id="city" class="header__city">
+              <option
+                v-for="(item, i) in cityList"
+                :key="i"
+              >
+                {{ item }}
+              </option>
+            </datalist>
+          </div>
         </div>
         <div class="body">
           <h1>Каршеринг <span class="msg">{{ msg }}</span></h1>
           <p>Поминутная аренда авто твоего города</p>
           <v-btn
-            elevation="2"
             color="#0EC261"
           >Забронировать
           </v-btn>
@@ -97,6 +98,7 @@ export default {
 
   .main {
     min-width: 45%;
+
     &__content {
       display: flex;
       flex-direction: column;
@@ -105,12 +107,17 @@ export default {
       padding: 5%;
 
       .header {
-        display: flex;
-        justify-content: space-between;
         height: 10%;
         width: 100%;
-        &__item {
-          text-align: right;
+
+        &__nav {
+          display: none;
+        }
+
+        &__name {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
         }
       }
 
@@ -135,6 +142,7 @@ export default {
         .v-btn {
           width: 35%;
           margin-top: 7%;
+
           &__content {
             color: white;
           }
@@ -149,51 +157,143 @@ export default {
   }
 }
 
-@media (max-width:768px), (max-height: 811px) {
+@media (max-width: 768px), (max-height: 811px) {
 
   .v-carousel {
     display: none;
   }
 }
 
-@media (max-width: 320px), (max-height: 568px) {
+@media (max-width: 320px) and (max-height: 568px) {
 
   .home {
     .block {
-      background-color: white;
-      &__lang {
-        display: none;
-      }
+      display: none;
     }
 
     .main {
+      min-width: 100%;
+
       &__content {
+        padding: 0;
+
         .header {
+          padding: 1%;
           display: flex;
-          flex-direction: column;
-          align-items: flex-end;
+          justify-content: space-between;
+
+          &__nav {
+            display: block;
+          }
+
+          &__name {
+            width: 60%;
+            display: flex;
+            flex-wrap: wrap;
+          }
         }
+
         .body {
-          h1{
+          h1 {
+            padding: 0 2.5% 0 2.5%;
             font-size: 32px;
             line-height: 1.25;
           }
+
           p {
+            padding: 0 2.5% 0 2.5%;
             font-size: 18px;
           }
+
           .v-btn {
             width: 100%;
             height: 50px;
           }
         }
+
         .footer {
+          font-size: 13px;
+          padding: 2.5%;
           height: 72px;
           background-color: black;
           color: white;
           display: flex;
           flex-direction: column-reverse;
           align-items: flex-end;
-          justify-content: center;
+          justify-content: space-around;
+
+          &__number {
+            color: #0EC261;
+          }
+        }
+      }
+    }
+  }
+
+  .v-carousel {
+    display: none;
+  }
+}
+
+@media (max-width: 568px) and (max-height: 320px) {
+  .home {
+    .block {
+      display: none;
+    }
+
+    .main {
+      min-width: 100%;
+
+      &__content {
+        padding: 0;
+
+        .header {
+          padding: 1%;
+          display: flex;
+          justify-content: space-between;
+
+          &__nav {
+            display: block;
+          }
+
+          &__name {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+
+        .body {
+          h1 {
+            span {
+              padding-left: 10px
+            }
+
+            padding: 0 2.5% 0 2.5%;
+            font-size: 32px;
+          }
+
+          p {
+            padding: 0 2.5% 0 2.5%;
+            font-size: 18px;
+          }
+
+          .v-btn {
+            width: 100%;
+            height: 50px;
+          }
+        }
+
+        .footer {
+          font-size: 13px;
+          padding: 2.5%;
+          height: 72px;
+          background-color: black;
+          color: white;
+          display: flex;
+          flex-direction: column-reverse;
+          align-items: flex-end;
+          justify-content: space-around;
 
           &__number {
             color: #0EC261;

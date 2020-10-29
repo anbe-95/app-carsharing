@@ -59,6 +59,7 @@ export default {
   display: flex;
   opacity: 0.9;
   min-width: 100%;
+  min-height: 100%;
   &__content {
     background-color: black;
     display: flex;
