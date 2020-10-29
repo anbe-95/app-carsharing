@@ -142,7 +142,7 @@ export default {
         .v-btn {
           width: 35%;
           margin-top: 7%;
-
+          text-transform: none;
           &__content {
             color: white;
           }
