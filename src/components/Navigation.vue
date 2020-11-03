@@ -1,6 +1,6 @@
 <template>
   <div class="nav_container">
-    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon :dark="!mobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-navigation-drawer
       v-model="drawer"
       absolute
@@ -40,6 +40,12 @@
 <script>
 export default {
   name: 'Navigation',
+  props: {
+    mobile: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data: () => ({
     drawer: false,
     group: null,
@@ -68,13 +74,8 @@ export default {
   }
 }
 
-.v-list-item-group {
-  margin-left: 25%;
-}
-
 .v-list-item:hover {
   opacity: 0.9;
-  color: green;
 }
 
 </style>

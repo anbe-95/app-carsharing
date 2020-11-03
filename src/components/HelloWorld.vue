@@ -1,37 +1,25 @@
 <template>
   <div class="home">
     <div class="block">
-      <Navigation/>
-      <select name="lang" class="block__lang" v-model="defaultLang">
-        <option
-          v-for="(item, i) in langList"
-          :key="i"
-        >
-          {{ item }}
-        </option>
-      </select>
+      <div class="block__content">
+        <Navigation/>
+        <language/>
+      </div>
     </div>
     <div class="main">
       <div class="main__content">
         <div class="header">
-          <Navigation class="header__nav"/>
+          <Navigation mobile class="header__nav"/>
           <div class="header__name">
             <h2><span class="msg">{{ msg }}</span></h2>
-            <input placeholder="Введите город" type="text" list="city">
-            <datalist id="city" class="header__city">
-              <option
-                v-for="(item, i) in cityList"
-                :key="i"
-              >
-                {{ item }}
-              </option>
-            </datalist>
+            <city/>
           </div>
         </div>
         <div class="body">
           <h1>Каршеринг <span class="msg">{{ msg }}</span></h1>
           <p>Поминутная аренда авто твоего города</p>
           <v-btn
+            to="/location"
             color="#0EC261"
           >Забронировать
           </v-btn>
@@ -42,26 +30,23 @@
         </div>
       </div>
     </div>
-    <carousel/>
+    <Carousel/>
   </div>
 </template>
 
 <script>
-import carousel from '@/components/carousel.vue';
+import Carousel from '@/components/Carousel.vue';
 import Navigation from '@/components/Navigation.vue';
+import City from '@/components/City.vue';
+import Language from '@/components/Language.vue';
 
 export default {
   name: 'HelloWorld',
-  data() {
-    return {
-      defaultLang: 'Eng',
-      langList: ['Rus', 'Eng', 'Deu', 'Fra', 'Spa', 'Ita'],
-      cityList: ['Москва', 'Санкт-Петербург', 'Казань', 'Нижний-Новгород', 'Самара', 'Чебоксары', 'Ульяновск', 'Саранск'],
-    };
-  },
   components: {
     Navigation,
-    carousel,
+    Carousel,
+    City,
+    Language,
   },
   props: {
     msg: String,
@@ -77,18 +62,17 @@ export default {
 
   .block {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     background-color: black;
-    width: 5%;
+    width: 2.5%;
 
-    .nav_container {
-      margin-top: 34px;
-    }
-
-    &__lang {
-      color: #0EC261;
-      padding: 0 5px 37px 5px;
+    &__content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5vh;
+      margin-bottom: 5vh;
     }
   }
 
@@ -97,7 +81,7 @@ export default {
   }
 
   .main {
-    min-width: 45%;
+    width: 47.5%;
 
     &__content {
       display: flex;
@@ -118,6 +102,10 @@ export default {
           display: flex;
           justify-content: space-between;
           width: 100%;
+
+          input {
+            text-align: end;
+          }
         }
       }
 
@@ -143,6 +131,7 @@ export default {
           width: 35%;
           margin-top: 7%;
           text-transform: none;
+
           &__content {
             color: white;
           }
@@ -157,14 +146,13 @@ export default {
   }
 }
 
-@media (max-width: 768px), (max-height: 811px) {
-
+@media (max-width: 960px) {
   .v-carousel {
     display: none;
   }
 }
 
-@media (max-width: 320px) and (max-height: 568px) {
+@media (max-width: 600px) {
 
   .home {
     .block {
@@ -198,79 +186,6 @@ export default {
             padding: 0 2.5% 0 2.5%;
             font-size: 32px;
             line-height: 1.25;
-          }
-
-          p {
-            padding: 0 2.5% 0 2.5%;
-            font-size: 18px;
-          }
-
-          .v-btn {
-            width: 100%;
-            height: 50px;
-          }
-        }
-
-        .footer {
-          font-size: 13px;
-          padding: 2.5%;
-          height: 72px;
-          background-color: black;
-          color: white;
-          display: flex;
-          flex-direction: column-reverse;
-          align-items: flex-end;
-          justify-content: space-around;
-
-          &__number {
-            color: #0EC261;
-          }
-        }
-      }
-    }
-  }
-
-  .v-carousel {
-    display: none;
-  }
-}
-
-@media (max-width: 568px) and (max-height: 320px) {
-  .home {
-    .block {
-      display: none;
-    }
-
-    .main {
-      min-width: 100%;
-
-      &__content {
-        padding: 0;
-
-        .header {
-          padding: 1%;
-          display: flex;
-          justify-content: space-between;
-
-          &__nav {
-            display: block;
-          }
-
-          &__name {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-          }
-        }
-
-        .body {
-          h1 {
-            span {
-              padding-left: 10px
-            }
-
-            padding: 0 2.5% 0 2.5%;
-            font-size: 32px;
           }
 
           p {

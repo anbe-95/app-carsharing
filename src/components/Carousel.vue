@@ -23,7 +23,7 @@
 <script>
 
 export default {
-  name: 'carousel',
+  name: 'Carousel',
   data() {
     return {
       items: [
@@ -62,7 +62,7 @@ export default {
 .v-carousel {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 50% !important;
   .v-responsive__sizer {
     display: contents;
   }
