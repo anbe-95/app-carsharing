@@ -11,29 +11,37 @@ const routes = [
     component: Home,
   },
   {
-    path: '/location',
-    name: 'Location',
-    component: () => import('../views/Location.vue'),
-  },
-  {
-    path: '/location/model',
-    name: 'Model',
-    component: () => import('../views/Model.vue'),
-  },
-  {
-    path: '/location/model/addition',
-    name: 'Addition',
-    component: () => import('../views/Addition.vue'),
-  },
-  {
-    path: '/location/model/addition/total',
-    name: 'Total',
-    component: () => import('../views/Total.vue'),
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue'),
+  },
+  {
+    path: '/rent',
+    name: 'Rent',
+    component: () => import('../views/Rent/Index.vue'),
+    redirect: '/rent/location',
+    children: [
+      {
+        path: 'location',
+        name: 'Location',
+        component: () => import('../views/Rent/Location.vue'),
+      },
+      {
+        path: 'model',
+        name: 'Model',
+        component: () => import('../views/Rent/Model.vue'),
+      },
+      {
+        path: 'addition',
+        name: 'Addition',
+        component: () => import('../views/Rent/Addition.vue'),
+      },
+      {
+        path: 'total',
+        name: 'Total',
+        component: () => import('../views/Rent/Total.vue'),
+      },
+    ],
   },
 ];
 

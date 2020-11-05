@@ -65,7 +65,6 @@ export default {
         text-transform: none;
       }
     }
-
   }
 }
 

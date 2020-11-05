@@ -6,7 +6,7 @@
         :key="i"
       >
         {{ item }}
-      </option>ss
+      </option>
     </select>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
 <style lang="scss" scoped>
 
  select {
-   color: #0EC261
+   color: #0EC261;
  }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="location">
+  <div class="rent">
     <div class="block">
       <div class="block__content">
         <Navigation/>
@@ -13,34 +13,24 @@
           <city/>
         </div>
         <div class="header__down">
-          <router-link to="/location" style="color: #0EC261">Местоположение</router-link>
-          <img src="./../assets/images/icon-arrow.svg" alt="icon">
-          <router-link to="/location/model">Модель</router-link>
-          <img src="./../assets/images/icon-arrow.svg" alt="icon">
-          <router-link to="/location/model/addition">Дополнительно</router-link>
-          <img src="./../assets/images/icon-arrow.svg" alt="icon">
-          <router-link to="/location/model/addition/total">Итого</router-link>
+          <router-link to="/rent/location">Местоположение</router-link>
+          <img src="../../assets/images/icon-arrow.svg" alt="icon">
+          <router-link to="/rent/model">Модель</router-link>
+          <img src="../../assets/images/icon-arrow.svg" alt="icon">
+          <router-link to="/rent/addition">Дополнительно</router-link>
+          <img src="../../assets/images/icon-arrow.svg" alt="icon">
+          <router-link to="/rent/total">Итого</router-link>
         </div>
       </div>
       <div class="body">
         <div class="body__left">
-          <div class="city">
-            <p>Город</p>
-            <city/>
-          </div>
-          <div class="point">
-            <p>Пункт выдачи</p>
-            <city/>
-          </div>
-          <p>Выбрать на карте:
-            <img src=./../assets/images/map.jpg alt="Карта"/>
-          </p>
+          <router-view></router-view>
         </div>
         <div class="body__right">
           <h3>Ваш заказ:</h3>
           <p>Пункт выдачи........Ульяновск</p>
           <h4>Цена: от 8000-12000 ₽</h4>
-          <v-btn block to="/location/model">Выбрать модель</v-btn>
+          <v-btn block>Выбрать модель</v-btn>
         </div>
       </div>
     </div>
@@ -49,11 +39,11 @@
 
 <script>
 import Navigation from '@/components/Navigation.vue';
-import City from '@/components/City.vue';
-import Language from '@/components/Language.vue';
+import City from '@/components/elements/City.vue';
+import Language from '@/components/elements/Language.vue';
 
 export default {
-  name: 'Location',
+  name: 'Rent',
   components: {
     Navigation,
     City,
@@ -65,7 +55,7 @@ export default {
 
 <style lang="scss" scoped>
 
-.location {
+.rent {
   display: flex;
   height: 100vh;
 
@@ -112,6 +102,10 @@ export default {
           color: #999999;
         }
 
+        .router-link-active {
+          color: #0EC261;
+        }
+
         img {
           transform: rotate(180deg);
           height: 8px;
@@ -130,28 +124,6 @@ export default {
         width: 70%;
         border-right: 1px solid #EEEEEE;
         padding: 2.5%;
-
-        p {
-          padding-right: 15px;
-        }
-
-        .city {
-          display: flex;
-        }
-
-        .point {
-          display: flex;
-        }
-
-        p:last-child {
-          padding-top: 15px;
-
-          img {
-            padding-top: 5px;
-            width: 736px;
-            height: 352px;
-          }
-        }
       }
 
       &__right {

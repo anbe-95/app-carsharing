@@ -25,8 +25,8 @@
           </v-btn>
         </div>
         <div class="footer">
-          <p class="footer__info">2016-2019 "{{ msg }}"</p>
-          <p class="footer__number">8 (495) 234-22-44</p>
+          <p>© 2016-2019 "{{ msg }}"</p>
+          <a href="tel:+74952342244">8 (495) 234-22-44</a>
         </div>
       </div>
     </div>
@@ -37,8 +37,8 @@
 <script>
 import Carousel from '@/components/Carousel.vue';
 import Navigation from '@/components/Navigation.vue';
-import City from '@/components/City.vue';
-import Language from '@/components/Language.vue';
+import City from '@/components/elements/City.vue';
+import Language from '@/components/elements/Language.vue';
 
 export default {
   name: 'HelloWorld',
@@ -141,6 +141,15 @@ export default {
       .footer {
         display: flex;
         justify-content: space-between;
+
+        p {
+          color: #999999;
+        }
+
+        a {
+          text-decoration: none;
+          color: black;
+        }
       }
     }
   }
@@ -210,7 +219,7 @@ export default {
           align-items: flex-end;
           justify-content: space-around;
 
-          &__number {
+          a {
             color: #0EC261;
           }
         }
