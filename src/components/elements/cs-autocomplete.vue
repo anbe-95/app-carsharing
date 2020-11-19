@@ -21,9 +21,14 @@ export default {
     };
   },
 };
-
 </script>
 
 <style lang="scss" scoped>
+
+input {
+  font-size: 14px;
+  text-align: end;
+  color: gray;
+}
 
 </style>

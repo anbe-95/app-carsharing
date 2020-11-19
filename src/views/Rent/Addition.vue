@@ -19,11 +19,11 @@
       <p>Дата аренды</p>
       <label>
         C
-        <input type="date" value="from" name="date">
+        <input type="datetime-local" value="from" name="date" >
       </label>
       <label>
         По
-        <input type="date" value="to" name="date">
+        <input type="datetime-local" value="to" name="date">
       </label>
     </div>
     <div class="tariff">
@@ -71,21 +71,62 @@ export default {
 
 .addition {
   display: flex;
-  height: 100vh;
   flex-direction: column;
 
-  p {
-    margin-bottom: 5px;
+  .colors {
+    margin-bottom: 32px;
+
+    p {
+      font-size: 14px;
+      font-weight: 300;
+      padding-bottom: 16px;
+    }
+
+    label {
+      color: #999999;
+      font-size: 14px;
+      padding-right: 16px;
+    }
   }
 
-  .tariff, .service, .date {
+  .date {
+    p {
+      padding-bottom: 16px;
+    }
+
+    font-size: 14px;
     display: flex;
     flex-direction: column;
-    margin-top: 2%;
+    margin-bottom: 32px;
   }
 
-  label {
-    padding-right: 10px;
+  .tariff {
+    p {
+      padding-bottom: 16px;
+    }
+
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    margin-bottom: 32px;
+
+    label {
+      color: #999999;
+    }
+  }
+
+  .service {
+    p {
+      padding-bottom: 16px;
+    }
+
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      color: #999999;
+    }
   }
 }
 

@@ -2,15 +2,18 @@
   <div class="rent">
     <div class="block">
       <div class="block__content">
-        <Navigation/>
-        <Language/>
+        <burger-menu class="burger_button"/>
+        <div class="language" @click="isVisible = !isVisible">
+          <p v-show="isVisible">Eng</p>
+          <p v-show="!isVisible">Rus</p>
+        </div>
       </div>
     </div>
     <div class="main">
       <div class="header">
         <div class="header__up">
-          <h1 style="color: #0EC261">Need for drive</h1>
-          <city/>
+          <a href="/">{{ title }}</a>
+          <cs-autocomplete :items="cityList"/>
         </div>
         <div class="header__down">
           <router-link to="/rent/location">Местоположение</router-link>
@@ -30,7 +33,7 @@
           <h3>Ваш заказ:</h3>
           <p>Пункт выдачи........Ульяновск</p>
           <h4>Цена: от 8000-12000 ₽</h4>
-          <v-btn block>Выбрать модель</v-btn>
+          <cs-button text="Выбрать модель"/>
         </div>
       </div>
     </div>
@@ -38,16 +41,27 @@
 </template>
 
 <script>
-import Navigation from '@/components/Navigation.vue';
-import City from '@/components/elements/City.vue';
-import Language from '@/components/elements/Language.vue';
+import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
+import CsButton from '@/components/elements/cs-button.vue';
+import BurgerMenu from '@/components/burger-menu.vue';
 
 export default {
   name: 'Rent',
   components: {
-    Navigation,
-    City,
-    Language,
+    BurgerMenu,
+    CsButton,
+    CsAutocomplete,
+  },
+  data() {
+    return {
+      isVisible: true,
+      cityList: ['Москва', 'Санкт-Петербург', 'Казань', 'Нижний-Новгород', 'Самара', 'Чебоксары', 'Ульяновск', 'Саранск'],
+    };
+  },
+  computed: {
+    title() {
+      return this.$store.state.title;
+    },
   },
 };
 
@@ -57,26 +71,51 @@ export default {
 
 .rent {
   display: flex;
-  height: 100vh;
+  height: 100%;
 
   .block {
-    display: flex;
-    background-color: black;
-    width: 2.5%;
+    background-color: #151B1F;
+    width: 64px;
 
     &__content {
       width: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       align-items: center;
-      margin-top: 5vh;
-      margin-bottom: 5vh;
+
+      .burger_button {
+        position: fixed;
+        top: 44px;
+        z-index: 1;
+      }
+
+      .language {
+        z-index: 1;
+        color: #0EC261;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 16px;
+        position: fixed;
+
+        &:hover {
+          color: white;
+          cursor: url("../../assets/images/pointer.svg"), pointer;
+          border: 1px solid white;
+          border-radius: 50%;
+        }
+
+        &:active {
+          color: #0EC261;
+        }
+      }
     }
   }
 
   .main {
-    width: 97.5%;
+    width: calc(100% - 64px);
     display: flex;
     flex-direction: column;
 
@@ -88,14 +127,22 @@ export default {
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid #EEEEEE;
-        padding: 2.5%;
+        padding: 32px 64px;
+
+        a {
+          font-size: 30px;
+          font-weight: bold;
+          text-decoration: none;
+          color: #0EC261;
+        }
       }
 
       &__down {
         display: flex;
         align-items: center;
         border-bottom: 1px solid #EEEEEE;
-        padding-left: 2.5%;
+        padding-left: 64px;
+        font-size: 14px;
 
         a {
           text-decoration: none;
@@ -123,30 +170,33 @@ export default {
       &__left {
         width: 70%;
         border-right: 1px solid #EEEEEE;
-        padding: 2.5%;
+        padding: 32px 64px;
       }
 
       &__right {
         width: 30%;
-        padding: 2.5%;
+        padding: 32px 64px;
 
         h3 {
           text-align: right;
           margin-top: 20px;
+          font-size: 18px;
         }
 
         p {
+          font-size: 14px;
           margin-top: 20px;
         }
 
         h4 {
+          font-size: 16px;
           margin-top: 20px;
         }
 
         .v-btn {
+          font-size: 18px;
           height: 48px;
           text-transform: none;
-          width: 287px;
           margin-top: 20px;
           color: white;
           background-color: #EEEEEE;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HelloWorld msg="Need for drive"/>
+    <HelloWorld/>
   </div>
 </template>
 

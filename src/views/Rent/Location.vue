@@ -3,28 +3,33 @@
     <div class="selection">
       <div class="selection__city">
         <p>Город</p>
-        <city/>
+        <cs-autocomplete :items="cityList"/>
       </div>
       <div class="selection__point">
         <p>Пункт выдачи</p>
-        <city/>
+        <cs-autocomplete :items="cityList"/>
       </div>
     </div>
     <div class="map">
       <p>Выбрать на карте:
-        <img src=../../assets/images/map.jpg alt="Карта"/>
+        <img src=../../assets/images/map.png alt="map"/>
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import City from '@/components/elements/City.vue';
+import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
 
 export default {
   name: 'Location',
   components: {
-    City,
+    CsAutocomplete,
+  },
+  data() {
+    return {
+      cityList: ['Москва', 'Санкт-Петербург', 'Казань', 'Нижний-Новгород', 'Самара', 'Чебоксары', 'Ульяновск', 'Саранск'],
+    };
   },
 };
 
@@ -40,15 +45,18 @@ export default {
     &__city {
       display: flex;
       justify-content: flex-end;
+      align-items: center;
       padding-bottom: 10px;
     }
 
     &__point {
       display: flex;
+      align-items: center;
     }
 
     p {
       padding-right: 15px;
+      font-size: 14px;
     }
   }
 

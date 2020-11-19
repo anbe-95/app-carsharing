@@ -7,7 +7,7 @@
       <p><b>Доступна с</b> 12.06.2019 12:00</p>
     </div>
     <div class="car">
-      <img src="../../assets/images/tesla-car.jpg" alt="pic">
+      <img src="/images/car-card(1).png" alt="pic">
     </div>
   </div>
 </template>

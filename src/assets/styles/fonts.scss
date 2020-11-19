@@ -5,4 +5,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Helvetica';
+  src: url('~@/assets/styles/fonts/Helvetica.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 $primary-font: 'Roboto', sans-serif;
+
+$secondary-font: 'Helvetica', sans-serif;
