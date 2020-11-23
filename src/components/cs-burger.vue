@@ -1,6 +1,6 @@
 <template>
   <div class="burger" @click="isActive = !isActive">
-    <div class="burger__icon" :class="{ active: isActive }">
+    <div class="burger__icon" :class="{ active: isActive} ">
       <span></span>
     </div>
     <div class="burger__menu" :class="{ active: isActive }">
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'BurgerMenu',
+  name: 'CsBurger',
   data() {
     return {
       isActive: false,
@@ -56,6 +56,7 @@ export default {
     position: absolute;
     width: 100%;
     height: 2px;
+    transition: all 0.3s ease 0s;
   }
 
   &__icon:before {
@@ -75,11 +76,10 @@ export default {
     height: 100%;
     transition: all 0.3s ease 0s;
     background-color: #151B1F;
-    opacity: 0.95;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 128px;
+    padding-left: 10%;
 
     a {
       font-size: 32px;
@@ -98,21 +98,27 @@ export default {
     width: 144px;
     display: flex;
     justify-content: space-between;
+
     .icon {
       &-telegram {
         content: url("../assets/images/telegram-icon.svg");
+
         &:hover {
           content: url("../assets/images/telegram-green.svg");
         }
       }
+
       &-facebook {
         content: url("../assets/images/facebook-icon.svg");
+
         &:hover {
           content: url("../assets/images/facebook-green.svg");
         }
       }
+
       &-instagram {
         content: url("../assets/images/instagram-icon.svg");
+
         &:hover {
           content: url("../assets/images/instagram-green.svg");
         }
@@ -153,7 +159,31 @@ export default {
   &__menu.active {
     left: 0;
   }
+}
 
+@media (max-width: 600px) {
+  .burger {
+    &__icon {
+
+      span {
+        background-color: black;
+      }
+    }
+
+    &__icon:before, &__icon:after {
+      background-color: black;
+    }
+    &__icon.active {
+
+      span {
+        background-color: white;
+      }
+    }
+
+    &__icon.active:before, &__icon.active:after {
+      background-color: white;
+    }
+  }
 }
 
 </style>

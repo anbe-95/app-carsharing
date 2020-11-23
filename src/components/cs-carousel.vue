@@ -11,23 +11,23 @@
         :item_data="item"
       />
     </div>
-    <div class="buttons">
-      <div class="buttons__first">
-        <button class="prev" @click="prevSlide">
+    <div class="cs-carousel__navigation">
+      <div class="cs-carousel__buttons">
+        <button class="cs-carousel__prev" @click="prevSlide">
           <img src="../assets/images/vector-left.svg" alt="left">
         </button>
-        <button class="next" @click="nextSlide">
+        <button class="cs-carousel__next" @click="nextSlide">
           <img src="../assets/images/vector-right.svg" alt="right">
         </button>
       </div>
-      <div class="buttons__second">
-        <img src="../assets/images/ellipse.svg" alt=".pic">
-        <img src="../assets/images/ellipse.svg" alt=".pic">
-        <img src="../assets/images/ellipse.svg" alt=".pic">
-        <img src="../assets/images/ellipse.svg" alt=".pic">
+      <div class="cs-carousel__pagination">
+        <div v-for="(item, i) in carousel_data"
+             :key="i"
+             class="cs-carousel__pagination-item"
+             :class="{ 'cs-carousel__pagination-item_active' : currentSlideIndex === i }"
+        />
       </div>
     </div>
-
   </div>
 </template>
 
@@ -85,7 +85,8 @@ export default {
 <style lang="scss" scoped>
 
 .wrapper {
-  max-width: 688px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   margin: 0 auto;
   position: relative;
@@ -93,45 +94,51 @@ export default {
   .cs-carousel {
     display: flex;
     transition: all 0.5s ease 0s;
-  }
+    width: 100%;
+    height: 100%;
 
-  .buttons {
-    &__first {
-      .prev, .next {
-        height: 100%;
-        width: 64px;
-        position: absolute;
-        top: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        outline: none;
-        z-index: 5;
+    &__prev, &__next {
+      height: 100%;
+      width: 64px;
+      position: absolute;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      z-index: 5;
 
-        &:hover {
-          background-color: rgba(14, 194, 97, .2);
-        }
-
-        &:active {
-          background: #076432;
-          opacity: 0.5;
-        }
+      &:hover {
+        background-color: rgba(14, 194, 97, .2);
       }
 
-      .next {
-        right: 0;
+      &:active {
+        background: #076432;
+        opacity: 0.5;
       }
     }
 
-    &__second {
+    &__next {
+      right: 0;
+    }
+
+    &__pagination {
       width: 56px;
       display: flex;
       justify-content: space-between;
       position: absolute;
       bottom: 32px;
       left: 50%;
-      img:hover {
-        content: url("../assets/images/ellips-green.svg");
+    }
+
+    &__pagination-item {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #EEEEEE;
+
+      &_active {
+        background: #0EC261;
       }
     }
   }

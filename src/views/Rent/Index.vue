@@ -2,7 +2,7 @@
   <div class="rent">
     <div class="block">
       <div class="block__content">
-        <burger-menu class="burger_button"/>
+        <cs-burger class="burger_button"/>
         <div class="language" @click="isVisible = !isVisible">
           <p v-show="isVisible">Eng</p>
           <p v-show="!isVisible">Rus</p>
@@ -43,12 +43,12 @@
 <script>
 import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
 import CsButton from '@/components/elements/cs-button.vue';
-import BurgerMenu from '@/components/burger-menu.vue';
+import CsBurger from '@/components/cs-burger.vue';
 
 export default {
   name: 'Rent',
   components: {
-    BurgerMenu,
+    CsBurger,
     CsButton,
     CsAutocomplete,
   },
@@ -202,6 +202,14 @@ export default {
           background-color: #EEEEEE;
         }
       }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .rent {
+    .block {
+      display: none;
     }
   }
 }

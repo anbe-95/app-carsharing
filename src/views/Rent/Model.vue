@@ -1,11 +1,8 @@
 <template>
   <div class="model">
     <div class="filtered">
-      <div v-for="(item, index) in values" :key="index">
-        <label>
-          <input class="radio" type="radio" :value="item.type" v-model="filtered">
-          <span>{{ item.text }}</span>
-        </label>
+      <div class="filtered-item" v-for="(item, index) in values" :key="index">
+        <cs-radio :default-value="item.type" v-model="filtered">{{ item.text }}</cs-radio>
       </div>
     </div>
     <div class="cars">
@@ -17,10 +14,12 @@
 <script>
 
 import CarCard from '@/components/car-card.vue';
+import CsRadio from '@/components/elements/cs-radio.vue';
 
 export default {
   name: 'Model',
   components: {
+    CsRadio,
     CarCard,
   },
   data() {
@@ -90,14 +89,8 @@ export default {
   .filtered {
     display: flex;
     margin-bottom: 48px;
-
-    label {
-      margin-right: 10px;
-      color: #999999;
-      font-size: 14px;
-      span {
-        padding-left: 5px;
-      }
+    &-item {
+      width: 120px;
     }
   }
   .cars {

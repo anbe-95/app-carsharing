@@ -3,9 +3,14 @@
     <div class="cs-carousel-content">
       <h1>{{ item_data.title }}</h1>
       <p>{{ item_data.text }}</p>
-      <cs-button text="Подробнее"/>
+      <cs-button class="slider-button" :class="item_data.buttonClass" text="Подробнее"/>
     </div>
-    <img :src="('/images/') + item_data.img " alt=".pic">
+    <div
+      :style="{background: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%),
+      center / cover no-repeat url(/images/${item_data.img}`}"
+      class="image"
+    >
+    </div>
   </div>
 </template>
 
@@ -33,14 +38,17 @@ export default {
   position: relative;
   display: flex;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
 
   .cs-carousel-content {
     color: white;
     position: absolute;
-    top: 30%;
+    margin-top: 30vh;
     display: flex;
     flex-direction: column;
-    width: 495px;
+    padding: 0 16%;
     flex-wrap: wrap;
 
     h1 {
@@ -56,6 +64,35 @@ export default {
       color: #EEEEEE;
       font-weight: 300;
     }
+    .slider-button {
+      color: #EEEEEE;
+      width: 164px;
+      border-radius: 4px;
+      &_green {
+        background: linear-gradient(90deg, #13493F 0%, #0C7B1B 100%);
+      }
+      &_blue {
+        background: linear-gradient(90deg, #132949 0%, #0C7B67 100%);
+      }
+      &_red {
+        background: linear-gradient(90deg, #493013 0%, #7B0C3B 100%);
+      }
+      &_pink {
+        background: linear-gradient(90deg, #281349 0%, #720C7B 100%);
+      }
+      &:hover {
+        filter: brightness(90%);
+      }
+      &:active {
+        filter: brightness(80%);
+      }
+    }
+  }
+  .image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 }
 

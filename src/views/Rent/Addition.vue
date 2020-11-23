@@ -1,68 +1,85 @@
 <template>
   <div class="addition">
+    <p>Цвет</p>
     <div class="colors">
-      <p>Цвет</p>
-      <label>
-        <input checked type="radio" value="all" name="colors">
-        Любой
-      </label>
-      <label>
-        <input type="radio" value="red" name="colors">
-        Красный
-      </label>
-      <label>
-        <input type="radio" value="blue" name="colors">
-        Голубой
-      </label>
+      <div class="colors-item" v-for="(item, index) in values" :key="index">
+        <cs-radio :default-value="item.type" v-model="colors">{{ item.text }}</cs-radio>
+      </div>
     </div>
+    <p>Дата аренды</p>
     <div class="date">
-      <p>Дата аренды</p>
       <label>
         C
-        <input type="datetime-local" value="from" name="date" >
+        <input type="datetime-local" value="from" name="date">
       </label>
       <label>
         По
         <input type="datetime-local" value="to" name="date">
       </label>
     </div>
+    <p>Тариф</p>
     <div class="tariff">
-      <p>Тариф</p>
-      <label>
-        <input type="radio" value="minute" name="tariff">
+      <cs-radio default-value="min" v-model="tariff">
         Поминутно, 7 ₽/мин
-      </label>
-      <label>
-        <input type="radio" value="day" name="tariff">
+      </cs-radio>
+      <cs-radio default-value="day" v-model="tariff">
         На сутки, 1999 ₽/сутки
-      </label>
+      </cs-radio>
     </div>
+    <p>Доп. услуги</p>
     <div class="service">
-      <p>Доп. услуги</p>
-      <label>
-        <input type="checkbox" value="fullTank" name="service">
-        Полный бак, 500₽
-      </label>
-      <label>
-        <input type="checkbox" value="babyChair" name="service">
-        Детское кресло, 200₽
-      </label>
-      <label>
-        <input type="checkbox" value="rightHand" name="service">
-        Правый руль, 1600₽
-      </label>
-      <label>
-        <input type="checkbox" value="rightHand" name="service">
-        Правый руль, 1600₽
-      </label>
+      <div class="service-item" v-for="(item, index) in addList" :key="index">
+        <cs-checkbox :default-value="item.type">{{ item.text }}</cs-checkbox>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 
+import CsRadio from '@/components/elements/cs-radio.vue';
+import CsCheckbox from '@/components/elements/cs-checkbox.vue';
+
 export default {
   name: 'Addition',
+  components: {
+    CsCheckbox,
+    CsRadio,
+  },
+  data() {
+    return {
+      colors: null,
+      tariff: null,
+      values: [
+        {
+          text: 'Любой',
+          type: 0,
+        },
+        {
+          text: 'Красный',
+          type: 1,
+        },
+        {
+          text: 'Синий',
+          type: 2,
+        },
+      ],
+      addList: [
+        {
+          text: 'Полный бак, 500 ₽',
+          type: 0,
+        },
+        {
+          text: 'Детское кресло, 200 ₽',
+          type: 1,
+        },
+        {
+          text: 'Правый руль, 1600 ₽',
+          type: 2,
+        },
+      ],
+    };
+  },
 };
 
 </script>
@@ -73,56 +90,36 @@ export default {
   display: flex;
   flex-direction: column;
 
+  p {
+    font-size: 14px;
+    font-weight: 300;
+    padding-bottom: 16px;
+  }
+
   .colors {
     margin-bottom: 32px;
+    display: flex;
 
-    p {
-      font-size: 14px;
-      font-weight: 300;
-      padding-bottom: 16px;
-    }
-
-    label {
-      color: #999999;
-      font-size: 14px;
-      padding-right: 16px;
+    &-item {
+      margin-right: 100px;
     }
   }
 
   .date {
-    p {
-      padding-bottom: 16px;
-    }
-
     font-size: 14px;
     display: flex;
     flex-direction: column;
     margin-bottom: 32px;
+    input {
+      margin-left: 8px;
+    }
   }
 
   .tariff {
-    p {
-      padding-bottom: 16px;
-    }
-
     display: flex;
     flex-direction: column;
     font-size: 14px;
     margin-bottom: 32px;
-
-    label {
-      color: #999999;
-    }
-  }
-
-  .service {
-    p {
-      padding-bottom: 16px;
-    }
-
-    font-size: 14px;
-    display: flex;
-    flex-direction: column;
 
     label {
       color: #999999;

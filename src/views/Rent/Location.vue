@@ -71,4 +71,37 @@ export default {
   }
 }
 
+@media (max-width: 1200px) {
+  .location {
+    .map {
+      img {
+        width: 600px;
+        height: auto;
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .location {
+    .map {
+      img {
+        width: 450px;
+        height: auto;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .location {
+    .map {
+      img {
+        width: 300px;
+        height: auto;
+      }
+    }
+  }
+}
+
 </style>

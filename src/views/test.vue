@@ -1,15 +1,22 @@
 <template>
   <div>
     <cs-carousel :carousel_data="sliderItems"/>
+    <div class="checkbox">
+      <cs-checkbox>one</cs-checkbox>
+      <cs-checkbox>one</cs-checkbox>
+      <cs-checkbox>one</cs-checkbox>
+    </div>
   </div>
 </template>
 
 <script>
 import CsCarousel from '@/components/cs-carousel.vue';
+import CsCheckbox from '@/components/elements/cs-checkbox.vue';
 
 export default {
   name: 'test',
   components: {
+    CsCheckbox,
     CsCarousel,
   },
   data() {
@@ -44,5 +51,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.checkbox {
+  margin-top: 50px;
+  margin-left: 50px;
+}
 
 </style>

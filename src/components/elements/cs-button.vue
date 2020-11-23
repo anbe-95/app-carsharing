@@ -1,5 +1,6 @@
 <template>
   <button
+    class="cs-button"
     @click="$emit('click')"
   >
     {{ text }}
@@ -10,6 +11,10 @@
 export default {
   name: 'cs-button',
   props: {
+    color: {
+      type: String,
+      default: '',
+    },
     text: String,
   },
 };

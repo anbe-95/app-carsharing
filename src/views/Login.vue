@@ -37,7 +37,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #EEEEEE;
+  background-color: #E5E5E5;
 
   &__logo {
     display: flex;
