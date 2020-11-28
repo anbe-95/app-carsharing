@@ -48,6 +48,29 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../views/Admin/Index.vue'),
+    redirect: '/admin/setting',
+    children: [
+      {
+        path: 'setting',
+        name: 'Car-Setting',
+        component: () => import('../views/Admin/Car-Setting.vue'),
+      },
+      {
+        path: 'table',
+        name: 'Table',
+        component: () => import('../views/Admin/Table.vue'),
+      },
+      {
+        path: 'list',
+        name: 'Order-List',
+        component: () => import('../views/Admin/Order-List'),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

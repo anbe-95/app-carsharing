@@ -5,17 +5,52 @@
       <h1>Need for drive</h1>
     </div>
     <div class="login__content">
-      <h2>Вход</h2>
-      <label for="email"><p>Почта</p>
-        <input required type="email" id="email" placeholder="Введите логин">
-      </label>
-      <label for="password"><p>Пароль</p>
-        <input required type="password" id="password" placeholder="Введите пароль">
-      </label>
-      <div class="buttons">
-        <a>Запросить доступ</a>
-        <v-btn color="#007BFF">Войти</v-btn>
-      </div>
+      <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation
+      >
+        <v-text-field
+          v-model.trim="name"
+          :counter="10"
+          :rules="nameRules"
+          label="Name"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="password"
+          :rules="passwordRules"
+          label="E-mail"
+          required
+          type="password"
+        ></v-text-field>
+
+        <v-checkbox
+          v-model="checkbox"
+          :rules="[v => !!v || 'You must agree to continue!']"
+          label="Do you agree?"
+          required
+        ></v-checkbox>
+        <div class="buttons">
+          <v-btn
+            color="error"
+            class="mr-4"
+            @click="reset"
+          >
+            Reset Form
+          </v-btn>
+
+          <v-btn
+            :disabled="!valid"
+            color="#007BFF"
+            class="mr-4"
+            @click="validate"
+          >
+            Войти
+          </v-btn>
+        </div>
+      </v-form>
     </div>
   </div>
 </template>
@@ -23,6 +58,29 @@
 <script>
 export default {
   name: 'Login',
+  data: () => ({
+    valid: true,
+    name: '',
+    nameRules: [
+      (v) => !!v || 'Name is required',
+      (v) => (v && v.length <= 10) || 'Name must be less than 10 characters',
+    ],
+    password: '',
+    passwordRules: [
+      (v) => !!v || 'E-mail is required',
+    ],
+    select: null,
+    checkbox: false,
+  }),
+
+  methods: {
+    validate() {
+      this.$refs.form.validate();
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+  },
 };
 </script>
 
@@ -57,6 +115,7 @@ export default {
   }
 
   &__content {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -67,38 +126,13 @@ export default {
     background-color: white;
     margin-top: 16.5px;
 
-    h2 {
-      text-align: center;
-      font-size: 17.5px;
-      color: #3D5170;
-      font-weight: 400;
-    }
-
-    input {
-      width: 100%;
-      height: 29px;
-      border: 0.5px solid #BECAD6;
-      border-radius: 3px;
-      font-size: 11px;
-      color: #3D5170;
-      padding-left: 11.5px;
-    }
-
-    p {
-      margin-bottom: 8.5px;
-      font-size: 10.5px;
-      color: #495057;
-    }
-
-    a {
-      font-size: 10.5px;
+    .v-input--selection-controls {
+      margin: 0;
     }
 
     .buttons {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-
       .v-btn {
         font-size: 11.5px;
         height: 29px;

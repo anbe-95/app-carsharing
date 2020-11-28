@@ -6,7 +6,7 @@
     >
       <cs-carousel-item
         class="cs-carousel-item"
-        v-for="(item, i) in carousel_data"
+        v-for="(item, i) in slides"
         :key="i"
         :item_data="item"
       />
@@ -21,10 +21,11 @@
         </button>
       </div>
       <div class="cs-carousel__pagination">
-        <div v-for="(item, i) in carousel_data"
+        <div v-for="(item, i) in slides"
              :key="i"
              class="cs-carousel__pagination-item"
              :class="{ 'cs-carousel__pagination-item_active' : currentSlideIndex === i }"
+             @click="setSlideIndex(i)"
         />
       </div>
     </div>
@@ -40,7 +41,7 @@ export default {
     CsCarouselItem,
   },
   props: {
-    carousel_data: {
+    slides: {
       type: Array,
       default: () => [],
     },
@@ -52,31 +53,51 @@ export default {
   data() {
     return {
       currentSlideIndex: 0,
+      timerId: null,
+      timeoutInterval: 0,
     };
   },
+  computed: {
+    currentInterval() {
+      return this.interval * 1000;
+    },
+  },
+  mounted() {
+    this.setupInterval();
+  },
+  beforeDestroy() {
+    clearInterval(this.timerId);
+  },
   methods: {
+    setupInterval() {
+      this.timerId = setInterval(() => {
+        this.nextSlide();
+      }, this.currentInterval);
+    },
+    resetInterval() {
+      clearInterval(this.timerId);
+      this.setupInterval();
+    },
+    setSlideIndex(index) {
+      this.currentSlideIndex = index;
+      this.resetInterval();
+    },
     prevSlide() {
       if (this.currentSlideIndex > 0) {
         this.currentSlideIndex -= 1;
       } else {
-        this.currentSlideIndex = 3;
+        this.currentSlideIndex = this.slides.length - 1;
       }
+      this.resetInterval();
     },
     nextSlide() {
-      if (this.currentSlideIndex >= this.carousel_data.length - 1) {
+      if (this.currentSlideIndex >= this.slides.length - 1) {
         this.currentSlideIndex = 0;
       } else {
         this.currentSlideIndex += 1;
       }
+      this.resetInterval();
     },
-  },
-  mounted() {
-    if (this.interval > 0) {
-      const vm = this;
-      setInterval(() => {
-        vm.nextSlide();
-      }, vm.interval);
-    }
   },
 };
 
@@ -139,6 +160,10 @@ export default {
 
       &_active {
         background: #0EC261;
+      }
+
+      &:hover {
+        cursor: pointer;
       }
     }
   }

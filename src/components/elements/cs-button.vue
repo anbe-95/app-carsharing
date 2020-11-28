@@ -35,12 +35,10 @@ button {
 
 button:hover {
   background: linear-gradient(90deg, #0B934A 2.61%, #026E47 112.6%);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
 button:active {
   background: linear-gradient(90deg, #076432 2.61%, #013C27 112.6%);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
 </style>

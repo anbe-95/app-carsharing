@@ -3,11 +3,9 @@
     <input placeholder="Введите город" type="text" list="city">
     <datalist id="city">
       <option
-        v-for="(item, i) in cityList"
+        v-for="(item, i) in items"
         :key="i"
-      >
-        {{ item }}
-      </option>
+        :value="item.name"/>
     </datalist>
   </div>
 </template>
@@ -15,10 +13,11 @@
 <script>
 export default {
   name: 'City',
-  data() {
-    return {
-      cityList: ['Москва', 'Санкт-Петербург', 'Казань', 'Нижний-Новгород', 'Самара', 'Чебоксары', 'Ульяновск', 'Саранск'],
-    };
+  props: {
+    items: {
+      type: Array,
+      default: () => [],
+    },
   },
 };
 </script>

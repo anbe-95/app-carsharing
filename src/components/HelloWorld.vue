@@ -17,7 +17,7 @@
             <a href="/">{{ title }}</a>
             <div class="city">
               <img src="../assets/images/vector.svg" alt="icon">
-              <cs-autocomplete :items="cityList"/>
+              <cs-autocomplete :items="cities"/>
             </div>
           </div>
         </div>
@@ -35,7 +35,8 @@
         </div>
       </div>
       <cs-carousel
-        :carousel_data="sliderItems"
+        :interval="5"
+        :slides="sliderItems"
       />
     </div>
   </div>
@@ -46,6 +47,8 @@ import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
 import CsButton from '@/components/elements/cs-button.vue';
 import CsBurger from '@/components/cs-burger.vue';
 import CsCarousel from '@/components/cs-carousel.vue';
+
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'HelloWorld',
@@ -84,15 +87,23 @@ export default {
         },
       ],
       isVisible: true,
-      cityList: ['Москва', 'Санкт-Петербург', 'Казань', 'Нижний-Новгород', 'Самара', 'Чебоксары', 'Ульяновск', 'Саранск'],
     };
   },
+  mounted() {
+    this.getCities();
+  },
   methods: {
+    ...mapActions({
+      getCities: 'getCities',
+    }),
     goToRent() {
       this.$router.push('rent');
     },
   },
   computed: {
+    ...mapState({
+      cities: 'cities',
+    }),
     title() {
       return this.$store.state.title;
     },

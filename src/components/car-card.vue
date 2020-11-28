@@ -1,8 +1,8 @@
 <template>
   <div class="car-card">
-    <p>{{ car.title }}</p>
-    <span>{{ car.price }}</span>
-    <img :src="car.img" alt="car.pic"/>
+    <p>{{ car.name }}</p>
+    <span>{{ car.priceMin + ' - ' + car.priceMax }}</span>
+    <img :src="`${car.thumbnail.path}`" alt="car.pic"/>
   </div>
 </template>
 
