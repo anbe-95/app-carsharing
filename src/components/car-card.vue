@@ -1,5 +1,5 @@
 <template>
-  <div class="car-card">
+  <div class="car-card" @click="$emit('click', car.id)">
     <p>{{ car.name }}</p>
     <span>{{ car.priceMin + ' - ' + car.priceMax }}</span>
     <img :src="`${car.thumbnail.path}`" alt="car.pic"/>

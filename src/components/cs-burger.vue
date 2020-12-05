@@ -84,6 +84,7 @@ export default {
     a {
       font-size: 32px;
       height: 55px;
+      width: 0;
       color: white;
       text-decoration: none;
     }

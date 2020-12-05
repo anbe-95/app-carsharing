@@ -17,7 +17,7 @@
             <a href="/">{{ title }}</a>
             <div class="city">
               <img src="../assets/images/vector.svg" alt="icon">
-              <cs-autocomplete :items="cities"/>
+              <cs-autocomplete class="cs-autocomplete" :items="cities"/>
             </div>
           </div>
         </div>
@@ -43,12 +43,12 @@
 </template>
 
 <script>
-import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
-import CsButton from '@/components/elements/cs-button.vue';
-import CsBurger from '@/components/cs-burger.vue';
-import CsCarousel from '@/components/cs-carousel.vue';
-
 import { mapActions, mapState } from 'vuex';
+
+import CsAutocomplete from './elements/cs-autocomplete.vue';
+import CsButton from './elements/cs-button.vue';
+import CsBurger from './cs-burger.vue';
+import CsCarousel from './cs-carousel.vue';
 
 export default {
   name: 'HelloWorld',
@@ -89,23 +89,21 @@ export default {
       isVisible: true,
     };
   },
+  computed: {
+    ...mapState({
+      cities: 'cities',
+      title: 'title',
+    }),
+  },
   mounted() {
     this.getCities();
   },
   methods: {
     ...mapActions({
-      getCities: 'getCities',
+      getCities: 'loadCities',
     }),
     goToRent() {
       this.$router.push('rent');
-    },
-  },
-  computed: {
-    ...mapState({
-      cities: 'cities',
-    }),
-    title() {
-      return this.$store.state.title;
     },
   },
 };
@@ -273,27 +271,32 @@ export default {
           .burger_button {
             display: block;
           }
+
           &__name {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
           }
         }
+
         .body {
           h1 {
             padding: 0 16px;
             font-size: 32px;
           }
+
           p {
             margin: 0;
             padding: 16px;
             font-size: 18px;
           }
+
           .cs-button {
             width: 100%;
             border-radius: 0;
           }
         }
+
         .footer {
           padding: 16px;
           height: 72px;
@@ -301,9 +304,11 @@ export default {
           display: flex;
           flex-direction: column-reverse;
           align-items: flex-end;
+
           a {
             color: #0EC261;
           }
+
           p {
             color: #EEEEEE;
           }

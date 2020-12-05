@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import CsButton from '@/components/elements/cs-button.vue';
+import CsButton from './elements/cs-button.vue';
 
 export default {
   name: 'CsCarouselItem',

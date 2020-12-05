@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'cs-radio',
+  name: 'CsRadio',
   props: {
     value: {
       type: String,

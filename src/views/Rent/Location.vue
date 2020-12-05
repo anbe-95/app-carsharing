@@ -3,11 +3,11 @@
     <div class="selection">
       <div class="selection__city">
         <p>Город</p>
-        <cs-autocomplete :items="cityList"/>
+        <cs-autocomplete v-model="cityValue" :items="cities"/>
       </div>
-      <div class="selection__point">
+      <div class="selection__point" v-if="cityValue">
         <p>Пункт выдачи</p>
-        <cs-autocomplete :items="cityList"/>
+        <cs-autocomplete v-model="pointValue" :items="filteredPoints"/>
       </div>
     </div>
     <div class="map">
@@ -19,7 +19,9 @@
 </template>
 
 <script>
-import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
+import { mapState, mapGetters, mapActions } from 'vuex';
+
+import CsAutocomplete from '../../components/elements/cs-autocomplete.vue';
 
 export default {
   name: 'Location',
@@ -28,8 +30,30 @@ export default {
   },
   data() {
     return {
-      cityList: ['Москва', 'Санкт-Петербург', 'Казань', 'Нижний-Новгород', 'Самара', 'Чебоксары', 'Ульяновск', 'Саранск'],
+      pointValue: '',
+      cityValue: '',
     };
+  },
+  computed: {
+    ...mapState({
+      cities: 'cities',
+    }),
+    ...mapGetters({
+      points: 'getPoints',
+    }),
+    filteredPoints() {
+      return this.points(this.cityValue);
+    },
+  },
+  created() {
+    this.loadCities();
+    this.loadPoints();
+  },
+  methods: {
+    ...mapActions({
+      loadCities: 'loadCities',
+      loadPoints: 'loadPoints',
+    }),
   },
 };
 
@@ -44,9 +68,6 @@ export default {
 
     &__city {
       display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding-bottom: 10px;
     }
 
     &__point {

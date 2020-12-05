@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import CsCheckbox from '@/components/elements/cs-checkbox.vue';
+import CsCheckbox from '../../components/elements/cs-checkbox.vue';
 
 export default {
   name: 'Order-List',

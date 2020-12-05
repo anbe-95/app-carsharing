@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import CsCarouselItem from '@/components/cs-carousel-item.vue';
+import CsCarouselItem from './cs-carousel-item.vue';
 
 export default {
   name: 'CsCarousel',

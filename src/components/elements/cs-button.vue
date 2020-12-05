@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'cs-button',
+  name: 'CsButton',
   props: {
     color: {
       type: String,

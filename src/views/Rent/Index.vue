@@ -13,7 +13,7 @@
       <div class="header">
         <div class="header__up">
           <a href="/">{{ title }}</a>
-          <cs-autocomplete :items="cityList"/>
+          <cs-autocomplete :items="cities"/>
         </div>
         <div class="header__down">
           <router-link to="/rent/location">Местоположение</router-link>
@@ -32,18 +32,32 @@
         <div class="body__right">
           <h3>Ваш заказ:</h3>
           <p>Пункт выдачи........Ульяновск</p>
-          <h4>Цена: от 8000-12000 ₽</h4>
-          <cs-button text="Выбрать модель"/>
+          <p v-if="car">Модель....{{ car.name }}</p>
+          <p v-if="color">Цвет....{{ color }}</p>
+          <p>Длительность аренды</p>
+          <p v-if="tariff">Тариф...{{ tariff }}</p>
+          <p v-for="item in addList" :key="item.type">{{ item.text }}....Да</p>
+          <h4 v-if="car">Цена: от {{ car.priceMin }}-{{ car.priceMax }} ₽</h4>
+          <cs-button @click="isVerification = !isVerification" text="Выбрать модель"/>
         </div>
+      </div>
+    </div>
+    <div class="modal-window" :class="{ verification : isVerification }">
+      <div class="content">
+        <p>Подтвердить заказ</p>
+        <button class="success">Подтвердить</button>
+        <button class="cancel" @click="isVerification = !isVerification">Вернуться</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
-import CsButton from '@/components/elements/cs-button.vue';
-import CsBurger from '@/components/cs-burger.vue';
+import { mapActions, mapState } from 'vuex';
+
+import CsAutocomplete from '../../components/elements/cs-autocomplete.vue';
+import CsButton from '../../components/elements/cs-button.vue';
+import CsBurger from '../../components/cs-burger.vue';
 
 export default {
   name: 'Rent',
@@ -54,13 +68,22 @@ export default {
   },
   data() {
     return {
-      isVisible: true,
-      cityList: ['Москва', 'Санкт-Петербург', 'Казань', 'Нижний-Новгород', 'Самара', 'Чебоксары', 'Ульяновск', 'Саранск'],
+      isVisible: false,
+      isVerification: false,
     };
   },
   computed: {
-    title() {
-      return this.$store.state.title;
+    ...mapState(['cities', 'car', 'color', 'title', 'tariff', 'addList']),
+  },
+  mounted() {
+    this.getCities();
+  },
+  methods: {
+    ...mapActions({
+      getCities: 'loadCities',
+    }),
+    goToRent() {
+      this.$router.push('rent');
     },
   },
 };
@@ -68,6 +91,54 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.modal-window {
+  display: none;
+  position: absolute;
+  opacity: 0.9;
+  background: white;
+  z-index: 3;
+  min-width: 100%;
+  min-height: 100vh;
+  .content {
+    position: absolute;
+    width: 405px;
+    height: 157px;
+    left: 35%;
+    top: 35%;
+    p {
+      padding-left: 70px;
+      font-size: 24px;
+      margin-bottom: 32px;
+    }
+    button {
+      height: 48px;
+      background-blend-mode: darken;
+      color: white;
+      &.success {
+        background: linear-gradient(90deg, #0EC261 2.61%, #039F67 112.6%);
+        border-radius: 8px;
+        margin-right: 16px;
+        width: 177px;
+      }
+      &.cancel {
+        background: linear-gradient(90deg, #493013 0%, #7B0C3B 100%);
+        border-radius: 4px;
+        width: 164px;
+      }
+      &:hover {
+        filter: brightness(80%);
+      }
+      &:active {
+        filter: brightness(60%);
+      }
+    }
+  }
+
+  &.verification {
+    display: block;
+  }
+}
 
 .rent {
   display: flex;
@@ -143,14 +214,15 @@ export default {
         border-bottom: 1px solid #EEEEEE;
         padding-left: 64px;
         font-size: 14px;
+        font-weight: 700;
 
         a {
           text-decoration: none;
           color: #999999;
-        }
 
-        .router-link-active {
-          color: #0EC261;
+          &.router-link-active {
+            color: #0EC261;
+          }
         }
 
         img {
