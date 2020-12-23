@@ -44,7 +44,7 @@
         </p>
         <p>
           <label>Категория
-            <input type="text" value="5e25c99a099b810b946c5d63">
+            <input type="text" v-model="car.categoryId.name">
           </label>
         </p>
         <div class="auto__info_colors">
