@@ -1,12 +1,24 @@
 import axios from 'axios';
 
-export default axios.create({
-  baseURL: 'http://api-factory.simbirsoft1.com/api/',
-  timeout: 5000,
-  headers: {
-    'X-Api-Factory-Application-Id': '5e25c641099b810b946c5d5b',
-    'Content-Type': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
-    Authorization: '4cbcea96de',
-  },
-});
+export class ApiService {
+  constructor() {
+    this.api = axios.create({
+      baseURL: '/api',
+      headers: {
+        'X-Api-Factory-Application-Id': process.env.VUE_APP_APP_ID,
+      },
+    });
+
+    this.api.interceptors.response.use((response) => response.data);
+    this.api.interceptors.request.use((config) => {
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+        // eslint-disable-next-line no-param-reassign
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    });
+  }
+}
+
+export default new ApiService();

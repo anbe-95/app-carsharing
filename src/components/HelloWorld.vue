@@ -17,7 +17,12 @@
             <a href="/">{{ title }}</a>
             <div class="city">
               <img src="../assets/images/vector.svg" alt="icon">
-              <cs-autocomplete class="cs-autocomplete" :items="cities"/>
+              <cs-autocomplete
+                v-model="cityValue"
+                :items="cities"
+                :default-value="city"
+                @input="setGlobalCity(cityValue)"
+              />
             </div>
           </div>
         </div>
@@ -43,12 +48,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
+import CsButton from '@/components/elements/cs-button.vue';
+import CsBurger from '@/components/cs-burger.vue';
+import CsCarousel from '@/components/cs-carousel.vue';
 
-import CsAutocomplete from './elements/cs-autocomplete.vue';
-import CsButton from './elements/cs-button.vue';
-import CsBurger from './cs-burger.vue';
-import CsCarousel from './cs-carousel.vue';
+import { mapActions, mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'HelloWorld',
@@ -87,23 +92,31 @@ export default {
         },
       ],
       isVisible: true,
+      cityValue: '',
     };
-  },
-  computed: {
-    ...mapState({
-      cities: 'cities',
-      title: 'title',
-    }),
   },
   mounted() {
     this.getCities();
   },
   methods: {
+    ...mapMutations(['setCity']),
     ...mapActions({
       getCities: 'loadCities',
     }),
+    setGlobalCity(value) {
+      this.setCity(value);
+    },
     goToRent() {
       this.$router.push('rent');
+    },
+  },
+  computed: {
+    ...mapState({
+      cities: 'cities',
+      city: 'city',
+    }),
+    title() {
+      return this.$store.state.title;
     },
   },
 };

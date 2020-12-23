@@ -1,7 +1,9 @@
 <template>
   <label class="cs-checkbox">
-    <input type="checkbox" :value="defaultValue">
-    <span class="cs-checkbox__label"><slot/></span>
+    <input type="checkbox" :value="defaultValue" v-model="picked" :disabled="disabled">
+    <span class="cs-checkbox__label">
+      <slot />
+    </span>
     <span class="checkmark"></span>
   </label>
 </template>
@@ -11,9 +13,25 @@ export default {
   name: 'CsCheckbox',
   props: {
     value: {
-      type: String,
+      type: [Array, Boolean],
     },
-    defaultValue: String,
+    defaultValue: {
+      type: [Object, Number],
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    picked: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit('input', value);
+      },
+    },
   },
 };
 </script>
@@ -25,8 +43,9 @@ export default {
   position: relative;
   cursor: pointer;
   user-select: none;
-  color: #999999;
+  color: #999;
   font-size: 14px;
+  font-weight: 300;
 
   &__label {
     position: absolute;
@@ -53,12 +72,17 @@ export default {
 }
 
 .cs-checkbox input:checked ~ .checkmark {
-  border: 2px solid #0EC261;
+  border: 2px solid #0ec261;
   content: url("../../assets/images/checkmark.svg");
 }
 
 .cs-checkbox input:checked ~ .cs-checkbox__label {
   color: black;
+}
+
+.cs-checkbox input:disabled ~ .cs-checkbox__label, .cs-checkbox input:disabled ~ .checkmark {
+  cursor: not-allowed;
+  opacity: 0.3;
 }
 
 </style>

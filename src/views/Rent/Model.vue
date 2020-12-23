@@ -3,30 +3,30 @@
     <div class="filtered">
       <div class="filtered-item" v-for="item in categories" :key="item.id">
         <cs-radio
-          :default-value="item.id"
+          :default-value="item.id || ''"
           v-model="filtered"
         >
           {{ item.name }}
         </cs-radio>
       </div>
     </div>
-    <div v-if="!preloader" class="cars">
-      <CarCard v-for="item in filteredCars" :key="item.id" :car="item" @click="getCarById"/>
-    </div>
-    <div v-else class="cars">
-      <v-progress-circular
-        indeterminate
-        color="green"
-      ></v-progress-circular>
+    <div class="cars">
+      <CarCard
+        v-for="(item) in filteredCars"
+        :key="item.id"
+        :car="item"
+        @click="getCar(item)"
+        :class="{ selected: item.id === isActive }"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
 
-import CarCard from '../../components/car-card.vue';
-import CsRadio from '../../components/elements/cs-radio.vue';
+import CarCard from '@/components/car-card.vue';
+import CsRadio from '@/components/elements/cs-radio.vue';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'Model',
@@ -41,32 +41,37 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      preloader: 'preloader',
-      categories: 'categories',
-      car: 'car',
-    }),
+    ...mapState(['categories', 'car']),
     ...mapGetters({
       cars: 'getCars',
     }),
     filteredCars() {
       return this.cars(this.filtered);
     },
+    isActive() {
+      return this.$store.getters.getCarInfo?.id;
+    },
+  },
+
+  watch: {
+    car() {
+      this.$store.commit('reloadStateFromModel');
+    },
   },
 
   created() {
-    this.loadCars();
-    this.loadCategories();
+    this.loadCars().then(() => this.loadCategories());
   },
 
   methods: {
-    ...mapActions({
-      loadCategories: 'loadCategories',
-      loadCars: 'loadCars',
-      loadCarById: 'loadCarById',
-    }),
-    getCarById(id) {
-      this.loadCarById(id);
+    ...mapActions(['loadCars', 'loadCategories']),
+    getCar(car) {
+      if (this.isActive === car.id) {
+        this.$store.commit('setCar', {});
+      } else {
+        this.$store.commit('setPrice', car.priceMin);
+        this.$store.commit('setCar', car);
+      }
     },
   },
 };

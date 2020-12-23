@@ -1,6 +1,6 @@
 <template>
   <label class="cs-radio">
-    <input type="radio" :value="defaultValue" v-model="picked">
+    <input type="radio" :value="defaultValue" v-model="picked" :disabled="disabled">
     <span class="cs-radio__label"><slot/></span>
     <span class="checkmark"></span>
   </label>
@@ -10,10 +10,16 @@
 export default {
   name: 'CsRadio',
   props: {
-    value: {
-      type: String,
+    defaultValue: {
+      required: true,
     },
-    defaultValue: String,
+    value: {
+      required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     picked: {
@@ -37,6 +43,7 @@ export default {
   user-select: none;
   color: #999999;
   font-size: 14px;
+  font-weight: 300;
 
   &__label {
     position: absolute;
@@ -69,6 +76,11 @@ export default {
 
 .cs-radio input:checked ~ .cs-radio__label {
   color: black;
+}
+
+.cs-radio input:disabled ~ .cs-radio__label, .cs-radio input:disabled ~ .checkmark {
+  cursor: not-allowed;
+  opacity: 0.3;
 }
 
 </style>

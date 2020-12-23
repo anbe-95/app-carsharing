@@ -4,27 +4,49 @@
     <div class="auto">
       <div class="auto__card">
         <div class="auto__card_image">
-          <img :src="imagePreview" v-show="showPreview"/>
+          <v-img
+            max-height="150"
+            max-width="250"
+            :src="image"
+            style="cursor: pointer"
+          >
+            <v-icon v-if="!image" large style="height: 150px; width: 250px">
+              mdi-cloud-upload-outline
+            </v-icon>
+          </v-img>
         </div>
-        <h2>{{ modelCar }}</h2>
+        <h2>{{ car.name }}</h2>
         <h4>{{ typeCar }}</h4>
         <label>
-          <input type="file" ref="file" @change="fileUpload()" accept="image/*">
+          <input type="file" ref="file" @change="fileUpload" accept="image/*">
         </label>
-        <button @click="submitFile()">Загрука</button>
         <p>Заполнено</p>
-        <textarea cols="30" rows="10" placeholder="Описание"></textarea>
       </div>
       <div class="auto__info">
         <h3>Настройки автомобиля</h3>
         <div class="auto__info_model">
           <label>Модель автомобиля
-            <input type="text" v-model="modelCar">
+            <input type="text" v-model="car.name">
           </label>
           <label>Тип автомобиля
             <input type="text" v-model="typeCar">
           </label>
         </div>
+        <p>
+          <label>Мин цена
+            <input type="text" v-model="car.priceMin">
+          </label>
+        </p>
+        <p>
+          <label>Макс цена
+            <input type="text" v-model="car.priceMax">
+          </label>
+        </p>
+        <p>
+          <label>Категория
+            <input type="text" value="5e25c99a099b810b946c5d63">
+          </label>
+        </p>
         <div class="auto__info_colors">
           <label>Доступные цвета
             <input type="text" v-model="newColor" @keyup.enter="colors.push(newColor)">
@@ -37,9 +59,9 @@
           </ul>
         </div>
         <div class="buttons">
-          <button class="save">Сохранить</button>
-          <button class="cancel">Отменить</button>
-          <button class="delete">Удалить</button>
+          <button class="save" @click="onSave">Сохранить</button>
+          <button class="cancel" @click="onCancel">Отменить</button>
+          <button v-if="isEdit" class="delete" @click="onDelete">Удалить</button>
         </div>
       </div>
     </div>
@@ -47,38 +69,45 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 export default {
-  name: 'CarSetting',
+  name: 'Car',
   data() {
     return {
-      file: '',
+      file: null,
       showPreview: false,
       imagePreview: '',
       modelCar: '',
       typeCar: '',
       newColor: '',
       colors: ['Синий', 'Красный'],
+      car: {
+        name: '',
+        description: '',
+        priceMax: '',
+        priceMin: '',
+      },
     };
   },
-  methods: {
-    submitFile() {
-      const formData = new FormData();
-      formData.append('file', this.file);
-      this.$axios.post('/single-file',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then(() => {
-          alert('SUCCESS!!');
-        })
-        .catch(() => {
-          alert('FAILURE!!');
-        });
+  computed: {
+    isEdit() {
+      return !!this.carId;
     },
+    carId() {
+      return this.$route.params.id;
+    },
+    image() {
+      return this.car?.thumbnail?.path || this.imagePreview;
+    },
+  },
+  methods: {
+    ...mapActions({
+      loadCar: 'cars/loadCar',
+      createCar: 'cars/createCar',
+      deleteCar: 'cars/deleteCar',
+      updateCar: 'cars/updateCar',
+    }),
     fileUpload() {
       // eslint-disable-next-line prefer-destructuring
       this.file = this.$refs.file.files[0];
@@ -94,6 +123,41 @@ export default {
         }
       }
     },
+    async onSave() {
+      const formData = new FormData();
+      formData.append('name', this.car.name);
+      formData.append('categoryId', '5e25c99a099b810b946c5d63');
+      formData.append('priceMin', this.car.priceMin);
+      formData.append('priceMax', this.car.priceMax);
+      formData.append('description', this.car.description);
+      if (this.file) {
+        formData.append('thumbnail', this.file);
+      }
+      if (this.isEdit) {
+        this.car = await this.updateCar({ id: this.carId, formData });
+      } else {
+        const id = await this.createCar(formData);
+        this.$router.push({
+          name: 'Car',
+          params: { id },
+        });
+      }
+    },
+
+    onCancel() {
+      this.$router.push({ name: 'Cars' });
+    },
+
+    async onDelete() {
+      await this.deleteCar(this.carId);
+      this.$router.push({ name: 'Cars' });
+    },
+  },
+
+  async created() {
+    if (this.isEdit) {
+      this.car = await this.loadCar(this.carId);
+    }
   },
 };
 </script>
@@ -101,12 +165,13 @@ export default {
 <style lang="scss" scoped>
 
 .car-setting {
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
+
   width: 100%;
 
   h1, h2, h3, h4, p, label {
     font-weight: 400;
-    color: #3D5170;
+    color: #3d5170;
   }
 
   h1 {
@@ -175,7 +240,7 @@ export default {
         flex-direction: column;
 
         input {
-          border: 1px solid #BECAD6;
+          border: 1px solid #becad6;
           border-radius: 4px;
           height: 30px;
           outline: none;
@@ -205,7 +270,7 @@ export default {
           margin-left: 8px;
           width: 30px;
           height: 30px;
-          border: 1px solid #BECAD6;
+          border: 1px solid #becad6;
           border-radius: 4px;
           outline: none;
           display: flex;
@@ -249,18 +314,18 @@ export default {
         }
 
         .save {
-          background: #007BFF;
+          background: #007bff;
           color: white;
         }
 
         .cancel {
-          background: #E9ECEF;
-          color: #3D5170;
+          background: #e9ecef;
+          color: #3d5170;
           margin-left: 12.5px;
         }
 
         .delete {
-          background: #CB3656;
+          background: #cb3656;
           color: white;
           margin-left: 320px;
         }

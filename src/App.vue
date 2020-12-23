@@ -8,21 +8,20 @@
 
 export default {
   name: 'App',
+  created() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.$store.dispatch('loadPosition', `${position.coords.longitude},${position.coords.latitude}`);
+      });
+    }
+  },
 };
 </script>
 
 <style lang="scss">
-@import '~@/assets/styles/reset.scss';
+@import '~@/assets/styles/common.scss';
 
 #app {
   font-family: 'Roboto', sans-serif;
-  cursor: url("assets/images/cursor.svg"), auto;
-
-  button, a {
-    &:hover {
-      cursor: url("assets/images/pointer.svg"), pointer;
-    }
-  }
 }
-
 </style>

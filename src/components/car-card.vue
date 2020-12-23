@@ -1,7 +1,7 @@
 <template>
-  <div class="car-card" @click="$emit('click', car.id)">
+  <div class="car-card" @click="$emit('click', car)">
     <p>{{ car.name }}</p>
-    <span>{{ car.priceMin + ' - ' + car.priceMax }}</span>
+    <span>{{ car.priceMin + ' - ' + car.priceMax }} ₽</span>
     <img :src="`${car.thumbnail.path}`" alt="car.pic"/>
   </div>
 </template>
@@ -39,13 +39,15 @@ export default {
     width: 256px;
     height: 116px;
   }
-}
-.car-card:hover {
-  border: 1px solid black;
-}
 
-.car-card:active {
-  border: 1px solid #0EC261;
+  &.selected {
+    border: 1px solid #0EC261;
+  }
+
+  &:hover {
+    border: 1px solid black;
+    cursor: pointer;
+  }
 }
 
 </style>

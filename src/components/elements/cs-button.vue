@@ -1,6 +1,7 @@
 <template>
   <button
     class="cs-button"
+    :disabled="disabled"
     @click="$emit('click')"
   >
     {{ text }}
@@ -11,11 +12,11 @@
 export default {
   name: 'CsButton',
   props: {
-    color: {
-      type: String,
-      default: '',
-    },
     text: String,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
@@ -39,6 +40,13 @@ button:hover {
 
 button:active {
   background: linear-gradient(90deg, #076432 2.61%, #013C27 112.6%);
+}
+
+button:disabled {
+  background: #EEEEEE;
+  &:hover {
+    cursor: not-allowed;
+  }
 }
 
 </style>

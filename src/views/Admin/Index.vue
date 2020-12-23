@@ -5,8 +5,13 @@
         <img width="21.5px" src="../../assets/images/logo.svg" alt="logo">
         <p>{{ title }}</p>
       </div>
-      <router-link to="/admin/setting">Карточка автомобиля</router-link>
-      <router-link to="/admin/table">Список авто</router-link>
+      <router-link
+        v-if="$route.name === 'Car'"
+        :to="{ name: 'Car', params: { id: $route.params.id }}"
+      >
+        Карточка автомобиля
+      </router-link>
+      <router-link to="/admin/cars">Список авто</router-link>
       <router-link to="/admin/list">Заказы</router-link>
     </div>
     <div class="main">
@@ -15,7 +20,7 @@
           <img src="../../assets/images/admin_icon.png" alt="admin">Admin
         </div>
       </div>
-      <div class="main__content">
+      <div v-if="!loading" class="main__content">
         <router-view></router-view>
       </div>
     </div>
@@ -23,12 +28,32 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Index',
+  data: () => ({
+    loading: true,
+  }),
   computed: {
     title() {
       return this.$store.state.title;
     },
+  },
+  methods: {
+    ...mapActions({
+      checkAuth: 'checkAuth',
+    }),
+  },
+  async created() {
+    this.loading = true;
+    const result = await this.checkAuth();
+
+    if (!result) {
+      this.$router.push({ name: 'Login' });
+    }
+
+    this.loading = false;
   },
 };
 </script>
@@ -57,7 +82,7 @@ export default {
 
       p {
         margin-left: 7px;
-        color: #3D5170;
+        color: #3d5170;
         font-size: 16px;
       }
     }
@@ -68,18 +93,18 @@ export default {
       display: flex;
       align-items: center;
       padding-left: 52px;
-      color: #3D5170;
+      color: #3d5170;
       text-decoration: none;
 
       &:hover {
-        background-color: #FBFBFB;
-        color: #007BFF;
+        background-color: #fbfbfb;
+        color: #007bff;
       }
     }
 
     .router-link-active {
-      color: #007BFF;
-      border-left: 4px solid #007BFF;
+      color: #007bff;
+      border-left: 4px solid #007bff;
     }
   }
 
@@ -87,19 +112,19 @@ export default {
     display: flex;
     flex-direction: column;
     width: calc(100% - 285px);
-    background-color: #E5E5E5;
+    background-color: #e5e5e5;
 
     &__header {
-      background-color: #ffffff;
+      background-color: #fff;
       height: 68px;
       display: flex;
       justify-content: flex-end;
-      box-shadow: 0.5px 0 0 #CACEDB, -0.5px 0px 0px #CACEDB;
+      box-shadow: 0.5px 0 0 #cacedb, -0.5px 0px 0px #cacedb;
 
       &-profile {
         width: 250px;
         height: 100%;
-        border-left: 1px solid #CACEDB;
+        border-left: 1px solid #cacedb;
         display: flex;
         align-items: center;
 

@@ -1,21 +1,25 @@
 <template>
   <div class="total">
     <div class="description">
-      <p>Tesla, model 3</p>
-      <p><span>К 761 НА 73</span></p>
-      <p><b>Топливо</b> 100%</p>
-      <p><b>Доступна с</b> 12.06.2019 12:00</p>
+      <p>{{ car.name }}</p>
+      <p><span>{{ car.number }}</span></p>
+      <p><b>Топливо:</b> {{ car.tank }}% </p>
+      <p><b>Доступна с</b> {{ $store.getters.getStartDate }}</p>
     </div>
     <div class="car">
-      <img src="/images/car-card(1).png" alt="pic">
+      <img :src="`${car.thumbnail.path}`" alt="car.pic" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'Total',
+  computed: {
+    ...mapState(['car', 'startDate']),
+  },
 };
 </script>
 
@@ -34,6 +38,13 @@ export default {
     span {
       border: 1px solid #999999;
       border-radius: 4px;
+      padding: 5px;
+    }
+  }
+  .car {
+    img {
+      width: 256px;
+      height: 116px;
     }
   }
 }

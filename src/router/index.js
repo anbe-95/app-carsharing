@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store';
 import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
@@ -16,11 +17,6 @@ const routes = [
     component: () => import('../views/Login.vue'),
   },
   {
-    path: '/test',
-    name: 'test',
-    component: () => import('../views/test.vue'),
-  },
-  {
     path: '/rent',
     name: 'Rent',
     component: () => import('../views/Rent/Index.vue'),
@@ -35,11 +31,27 @@ const routes = [
         path: 'model',
         name: 'Model',
         component: () => import('../views/Rent/Model.vue'),
+        beforeEnter: (to, from, next) => {
+          const { city, point } = store.state;
+          if (city && point) {
+            next();
+          } else {
+            next(false);
+          }
+        },
       },
       {
         path: 'addition',
         name: 'Addition',
         component: () => import('../views/Rent/Addition.vue'),
+        beforeEnter: (to, from, next) => {
+          const { car } = store.state;
+          if (car && car.colors) {
+            next();
+          } else {
+            next(false);
+          }
+        },
       },
       {
         path: 'total',
@@ -52,22 +64,22 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: () => import('../views/Admin/Index.vue'),
-    redirect: '/admin/setting',
+    redirect: '/admin/cars',
     children: [
       {
-        path: 'setting',
-        name: 'Car-Setting',
-        component: () => import('../views/Admin/Car-Setting.vue'),
+        path: 'car/:id?',
+        name: 'Car',
+        component: () => import('../views/Admin/Car.vue'),
       },
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('../views/Admin/Table.vue'),
+        path: 'cars',
+        name: 'Cars',
+        component: () => import('../views/Admin/Cars.vue'),
       },
       {
         path: 'list',
-        name: 'Order-List',
-        component: () => import('../views/Admin/Order-List'),
+        name: 'Orders',
+        component: () => import('../views/Admin/Orders'),
       },
     ],
   },

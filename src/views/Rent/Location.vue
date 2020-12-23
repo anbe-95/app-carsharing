@@ -3,64 +3,135 @@
     <div class="selection">
       <div class="selection__city">
         <p>Город</p>
-        <cs-autocomplete v-model="cityValue" :items="cities"/>
+        <cs-autocomplete
+          v-model="cityValue"
+          :items="cities"
+          :default-value="city"
+          @input="setGlobalCity(cityValue)"
+        >
+          <i class="icon-exit" v-if="cityValue" @click="clearCity"></i>
+        </cs-autocomplete>
       </div>
-      <div class="selection__point" v-if="cityValue">
+      <div class="selection__point" v-if="cityValue && filteredPoints.length">
         <p>Пункт выдачи</p>
-        <cs-autocomplete v-model="pointValue" :items="filteredPoints"/>
+        <cs-autocomplete
+          v-model="pointValue"
+          :items="filteredPoints"
+          :default-value="point"
+          placeholder="Выберете пункт"
+          @input="setPoint"
+        >
+          <i class="icon-exit" v-if="pointValue" @click="clearPoint"></i>
+        </cs-autocomplete>
       </div>
     </div>
-    <div class="map">
-      <p>Выбрать на карте:
-        <img src=../../assets/images/map.png alt="map"/>
-      </p>
+    <div class="map" v-if="filteredPoints.length">
+      <p>Выбрать на карте:</p>
+      <yandex-map :settings="mapSettings" :coords="coords" :controls="[]" zoom="10">
+        <ymap-marker :coords="coords" marker-id="123" />
+      </yandex-map>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
 
-import CsAutocomplete from '../../components/elements/cs-autocomplete.vue';
+import { yandexMap, ymapMarker } from 'vue-yandex-maps';
+
+import {
+  mapState,
+  mapGetters,
+  mapActions,
+  mapMutations,
+} from 'vuex';
 
 export default {
   name: 'Location',
   components: {
     CsAutocomplete,
+    yandexMap,
+    ymapMarker,
   },
   data() {
     return {
-      pointValue: '',
-      cityValue: '',
+      mapSettings: {
+        apiKey: process.env.VUE_APP_YANDEX_API_KEY,
+        lang: 'ru_RU',
+        coordorder: 'latlong',
+        version: '2.1',
+      },
+      coords: [
+        0,
+        0,
+      ],
     };
   },
   computed: {
-    ...mapState({
-      cities: 'cities',
-    }),
+    ...mapState(['point', 'city', 'cities']),
     ...mapGetters({
       points: 'getPoints',
     }),
     filteredPoints() {
-      return this.points(this.cityValue);
+      return this.points(this.cityValue || '');
+    },
+    cityValue: {
+      get() {
+        return this.city;
+      },
+      set(value) {
+        this.points(value);
+        this.setCity(value);
+      },
+    },
+    pointValue: {
+      get() {
+        return this.point;
+      },
+      set(value) {
+        this.setPoint(value);
+      },
     },
   },
   created() {
     this.loadCities();
     this.loadPoints();
   },
+  mounted() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(((position) => {
+        this.coords = [position.coords.latitude, position.coords.longitude];
+        console.log(position.coords.latitude, position.coords.longitude);
+      }));
+    }
+  },
+  watch: {
+    cityValue() {
+      this.reloadStateFromLocation();
+    },
+    pointValue() {
+      this.reloadStateFromLocation();
+    },
+  },
   methods: {
-    ...mapActions({
-      loadCities: 'loadCities',
-      loadPoints: 'loadPoints',
-    }),
+    ...mapMutations(['setCity', 'setPoint', 'setCar', 'reloadStateFromLocation']),
+    ...mapActions(['loadCities', 'loadPoints']),
+    setGlobalCity(value) {
+      this.setCity(value);
+    },
+    clearCity() {
+      this.setCity('');
+      this.setPoint('');
+    },
+    clearPoint() {
+      this.setPoint('');
+    },
   },
 };
 
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
 .location {
   .selection {
     display: inline-flex;
@@ -75,16 +146,30 @@ export default {
       align-items: center;
     }
 
+    &__point, &__city {
+      input {
+        font-weight: 300;
+        font-size: 16px;
+        border-bottom: 1px solid #999999;
+        &::-webkit-calendar-picker-indicator {
+          display: none;
+        }
+      }
+    }
+
     p {
       padding-right: 15px;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: 300;
     }
   }
 
   .map {
     padding-top: 40px;
+    width: 100%;
+    height: 100%;
 
-    img {
+    .ymap-container {
       padding-top: 5px;
       width: 736px;
       height: 352px;

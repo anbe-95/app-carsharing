@@ -2,38 +2,65 @@
   <div class="addition">
     <p>Цвет</p>
     <div class="colors">
-      <div class="colors-item" v-for="(item, index) in car.colors" :key="index">
-        <cs-radio @input="setColor" :default-value="item" v-model="colors">{{ item }}</cs-radio>
+      <div class="colors-item" v-for="(item, index) in car.colors || []" :key="index">
+        <cs-radio
+          v-model="colorValue"
+          @input="setColor(item)"
+          :default-value="item"
+        >
+          {{ item }}
+        </cs-radio>
       </div>
     </div>
     <p>Дата аренды</p>
     <div class="date">
       <label>
         C
-        <input type="datetime-local" value="from" name="date">
+        <input
+          v-model="startDate"
+          type="datetime-local"
+          name="date"
+          placeholder="dd/mm/yyyy"
+          :min="currentDate"
+          @input="setStartDate"
+        >
       </label>
       <label>
         По
-        <input type="datetime-local" value="to" name="date">
+        <input
+          v-model="finishDate"
+          type="datetime-local"
+          name="date"
+          placeholder="dd/mm/yyyy"
+          :min="minDate"
+          @input="setEndDate"
+          :disabled="!dateFrom"
+        >
       </label>
     </div>
     <p>Тариф</p>
-    <div class="tariff">
+    <div class="tariff" v-if="rate.length">
       <cs-radio
-        v-for="item in rate"
-        :key="item.rateTypeId.id"
-        :default-value="item.rateTypeId.name"
-        v-model="tariff"
+        v-for="(item, index) in rate"
+        :key="index"
+        :default-value="item"
+        v-model="tariffValue"
+        :disabled="!dateFrom || !dateTo"
         @input="setTariffCar"
       >
-        {{ item.rateTypeId.name }}, {{ item.price }}/{{ item.rateTypeId.unit }} ₽
+        {{ item.rateTypeId.name }}, {{ item.price }}₽ / {{ item.rateTypeId.unit }}
       </cs-radio>
     </div>
     <p>Доп. услуги</p>
     <div class="service">
-      <div class="service-item" v-for="(item, index) in addList" :key="index">
-        <cs-checkbox @click="setAddService" :default-value="item.type">
-          {{ item.text }}, {{ item.price}}₽
+      <div class="service-item" v-for="(item, index) in list" :key="index">
+        <cs-checkbox
+          v-model="additional"
+          :default-value="item"
+          :disabled="!dateFrom || !dateTo || !tariffValue"
+          @input="setAddService(item)"
+        >
+          {{ item.text }}, {{ item.price }}₽
         </cs-checkbox>
       </div>
     </div>
@@ -41,10 +68,13 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 
+import dayjs from 'dayjs';
 import CsRadio from '../../components/elements/cs-radio.vue';
 import CsCheckbox from '../../components/elements/cs-checkbox.vue';
+
+dayjs.locale('ru_RU');
 
 export default {
   name: 'Addition',
@@ -54,18 +84,108 @@ export default {
   },
   data() {
     return {
-      colors: null,
-      tariff: null,
+      add: [],
+      list: [
+        {
+          text: 'Полный бак',
+          price: 500,
+          type: 'isFullTank',
+        },
+        {
+          text: 'Детское кресло',
+          price: 200,
+          type: 'isNeedChildChair',
+        },
+        {
+          text: 'Правый руль',
+          price: 1600,
+          type: 'isRightWheel',
+        },
+      ],
     };
   },
   computed: {
-    ...mapState(['rate', 'car', 'addList']),
+    ...mapState([
+      'order',
+      'rate',
+      'car',
+      'dateFrom',
+      'dateTo',
+      'color',
+      'tariff',
+      'price',
+      'additionalList',
+    ]),
+    currentDate() {
+      return dayjs(Date.now()).format('YYYY-MM-DDTHH:mm');
+    },
+    minDate() {
+      return dayjs(this.startDate).format('YYYY-MM-DDTHH:mm');
+    },
+    startDate: {
+      get() {
+        return dayjs(this.dateFrom).format('YYYY-MM-DDTHH:mm:ss');
+      },
+      set(value) {
+        this.setDateFrom(dayjs(value).valueOf());
+        this.setAdditional([]);
+        if (this.tariff) {
+          this.setTariffCar(this.tariff);
+        }
+      },
+    },
+    finishDate: {
+      get() {
+        return dayjs(this.dateTo).format('YYYY-MM-DDTHH:mm:ss');
+      },
+      set(value) {
+        this.setDateTo(dayjs(value).valueOf());
+        this.setAdditional([]);
+        if (this.tariff) {
+          this.setTariffCar(this.tariff);
+        }
+      },
+    },
+    colorValue: {
+      get() {
+        return this.color;
+      },
+      set(value) {
+        this.setColorCar(value);
+      },
+    },
+    tariffValue: {
+      get() {
+        return this.tariff;
+      },
+      set(value) {
+        this.setTariffCar(value);
+        this.setAdditional([]);
+      },
+    },
+    additional: {
+      get() {
+        return this.additionalList;
+      },
+      set(value) {
+        this.setAdditional(value);
+      },
+    },
   },
   created() {
     this.loadRate();
   },
   methods: {
-    ...mapMutations(['setColorCar', 'setTariffCar']),
+    ...mapMutations([
+      'setColorCar',
+      'setTariffCar',
+      'setDateFrom',
+      'setDateTo',
+      'setResultPrice',
+      'setAdditional',
+      'setPrice',
+      'changeAdditional',
+    ]),
     ...mapActions(['loadRate']),
     setColor(value) {
       this.setColorCar(value);
@@ -73,12 +193,38 @@ export default {
     setTariff(value) {
       this.setTariffCar(value);
     },
+    setStartDate() {
+      this.setDateFrom(dayjs(this.startDate).valueOf());
+    },
+    setEndDate() {
+      this.setDateTo(dayjs(this.finishDate).valueOf());
+    },
+    setAddService(value) {
+      this.changeAdditional({ key: value.type, value: !this.$store.state[value.type] });
+      let initValue = this.$store.state.price;
+      let resultValue;
+      if (!this.additional.length) {
+        if (this.tariff) {
+          this.setTariffCar(this.tariff);
+          resultValue = this.$store.state.price;
+        }
+      } else if (this.additional.length > 1) {
+        this.setTariffCar(this.tariff);
+        initValue = this.$store.state.price;
+        resultValue = this.additional.reduce(((acc, current) => acc + current.price), initValue);
+      } else {
+        this.setTariffCar(this.tariff);
+        initValue = this.$store.state.price;
+        resultValue = initValue + this.additional[0].price;
+      }
+      this.setResultPrice(resultValue);
+    },
   },
 };
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .addition {
   display: flex;
@@ -104,21 +250,22 @@ export default {
     display: flex;
     flex-direction: column;
     margin-bottom: 32px;
+    font-weight: 300;
 
     input {
-      margin-left: 8px;
       color: gray;
+      margin-left: 8px;
       outline: none;
       border-bottom: 1px solid gray;
       position: relative;
+      width: 224px;
 
       &::-webkit-calendar-picker-indicator {
         background: none;
-        width: 100%;
         position: absolute;
-        &:focus {
-          outline: none;
-        }
+        font-weight: 300;
+        width: 100%;
+        outline: none;
       }
     }
   }

@@ -1,2 +1,11 @@
 @import '~@/assets/styles/fonts.scss';
-@import "~@/assets/styles/icons.scss";
+
+
+.icon {
+  &-exit {
+    content: url('~@/assets/images/exit.svg');
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
