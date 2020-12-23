@@ -30,7 +30,6 @@ export class ClientService extends ApiService {
   }
 
   postOrder(form) {
-    console.log(form);
     return this.api.post('db/order', { ...form });
   }
 }

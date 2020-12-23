@@ -101,7 +101,6 @@ export default {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(((position) => {
         this.coords = [position.coords.latitude, position.coords.longitude];
-        console.log(position.coords.latitude, position.coords.longitude);
       }));
     }
   },
