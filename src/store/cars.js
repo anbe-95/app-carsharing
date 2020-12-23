@@ -4,18 +4,6 @@ const state = {
   cars: null,
 };
 
-const getters = {
-  // getCars: (state) => (params) => {
-  //   return state.cars && params
-  //     ? state.cars.filter(car => {
-  //       if (params.name) {
-  //         return car.name.includes(params.name);
-  //       }
-  //     })
-  //     : state.cars;
-  // },
-};
-
 const mutations = {
   setCars: (state, cars) => state.cars = cars,
 };
@@ -49,7 +37,6 @@ const actions = {
 
 export default {
   state,
-  getters,
   mutations,
   actions,
   namespaced: true,
