@@ -258,7 +258,6 @@ export default {
       outline: none;
       border-bottom: 1px solid gray;
       position: relative;
-      width: 224px;
 
       &::-webkit-calendar-picker-indicator {
         background: none;
@@ -282,8 +281,14 @@ export default {
   }
 }
 
-@media(max-width: 900px) {
+@media(max-width: 1000px) {
   .addition {
+    display: flex;
+    flex-direction: column;
+    span {
+      font-size: 12px;
+    }
+
     p {
       font-size: 12px;
       padding-bottom: 0;
@@ -292,6 +297,16 @@ export default {
     .colors {
       margin-bottom: 28px;
       flex-direction: column;
+    }
+
+    .date {
+      font-size: 12px;
+      margin-bottom: 28px;
+    }
+
+    .tariff {
+      font-size: 12px;
+      margin-bottom: 28px;
     }
   }
 }

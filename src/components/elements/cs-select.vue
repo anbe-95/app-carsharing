@@ -1,7 +1,7 @@
 <template>
   <div class="cs-select">
-    <select>
-      <option disabled>Выберите город</option>
+    <select :value="defaultValue" @input="$emit('input', $event.target.value)">
+      <option disabled value="">Выберите город</option>
       <option v-for="(item, i) in items"
               :key="i"
       >
@@ -18,6 +18,9 @@ export default {
     items: {
       type: Array,
       default: () => [],
+    },
+    defaultValue: {
+      type: String,
     },
   },
 };

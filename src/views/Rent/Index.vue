@@ -13,10 +13,10 @@
       <div class="header">
         <div class="header__up">
           <a href="/">{{ title }}</a>
-          <cs-autocomplete
+          <cs-select
             v-model="cityValue"
-            :items="cities"
             :default-value="city"
+            :items="cities"
             @input="setGlobalCity(cityValue)"
           />
         </div>
@@ -150,9 +150,9 @@
 </template>
 
 <script>
-import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
 import CsButton from '@/components/elements/cs-button.vue';
 import CsBurger from '@/components/cs-burger.vue';
+import CsSelect from '@/components/elements/cs-select.vue';
 
 import { mapMutations, mapState } from 'vuex';
 import clientService from '@/services/client.service';
@@ -160,9 +160,9 @@ import clientService from '@/services/client.service';
 export default {
   name: 'Rent',
   components: {
+    CsSelect,
     CsBurger,
     CsButton,
-    CsAutocomplete,
   },
   data() {
     return {

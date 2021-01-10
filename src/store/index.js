@@ -153,6 +153,7 @@ export default new Vuex.Store({
       state.points = points;
     },
     setCity(state, city) {
+      state.point = '';
       state.city = city;
       state.order.city = { ...state.cities.filter((item) => item.name === city) };
     },

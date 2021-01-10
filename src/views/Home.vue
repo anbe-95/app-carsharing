@@ -17,7 +17,11 @@
             <a href="/">{{ title }}</a>
             <div class="city">
               <img src="../assets/images/vector.svg" alt="icon">
-              <cs-select :items="cities"/>
+              <cs-select
+                v-model="cityValue"
+                :default-value="city"
+                :items="cities"
+                @input="setGlobalCity(cityValue)"/>
             </div>
           </div>
         </div>
