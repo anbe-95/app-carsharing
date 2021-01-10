@@ -282,4 +282,18 @@ export default {
   }
 }
 
+@media(max-width: 900px) {
+  .addition {
+    p {
+      font-size: 12px;
+      padding-bottom: 0;
+    }
+
+    .colors {
+      margin-bottom: 28px;
+      flex-direction: column;
+    }
+  }
+}
+
 </style>

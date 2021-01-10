@@ -23,5 +23,9 @@ export default {
 
 #app {
   font-family: 'Roboto', sans-serif;
+  cursor: url('~@/assets/images/cursor.svg'), default;
+  a, button {
+    cursor: url('~@/assets/images/pointer.svg'), pointer;
+  }
 }
 </style>

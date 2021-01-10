@@ -7,7 +7,7 @@
       <p><b>Доступна с</b> {{ $store.getters.getStartDate }}</p>
     </div>
     <div class="car">
-      <img :src="`${car.thumbnail.path}`" alt="car.pic" />
+      <img :src="`${car.thumbnail.path}`" alt="car.pic"/>
     </div>
   </div>
 </template>
@@ -28,7 +28,6 @@ export default {
 .total {
   display: flex;
   justify-content: space-between;
-  padding-right: 5%;
 
   .description {
     display: flex;
@@ -41,10 +40,28 @@ export default {
       padding: 5px;
     }
   }
+
   .car {
     img {
       width: 256px;
       height: 116px;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .total {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (max-width: 400px) {
+  .total {
+    .car {
+      img {
+        width: 200px;
+        height: 85px;
+      }
     }
   }
 }

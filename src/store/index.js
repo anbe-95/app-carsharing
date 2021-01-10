@@ -52,7 +52,7 @@ export default new Vuex.Store({
         }))
       : []),
     // eslint-disable-next-line max-len
-    isOrderDone: (state, getters) => state.car && state.dateFrom && state.dateTo && state.price && (state.price < state.car.priceMax) && state.tariff && state.point && state.city && state.color && getters.getDuration,
+    isOrderDone: (state, getters) => state.car && state.dateFrom && state.dateTo && state.price && (state.price < state.car.priceMax && state.price > state.car.priceMin) && state.tariff && state.point && state.city && state.color && getters.getDuration,
     getCarInfo: (state) => state.car,
     getCurrentPrice: (state) => state.price,
     getDuration: (state) => {
@@ -116,15 +116,15 @@ export default new Vuex.Store({
       const countWeeksTariff = weeks ? weeks * tariff.price : weeks + tariff.price;
       switch (tariff.rateTypeId.unit) {
         case 'мин':
-          state.price = state.car.priceMin + (delta * tariff.price);
+          state.price = delta * tariff.price;
           break;
         case 'сутки':
-          state.price = state.car.priceMin + countDaysTariff;
+          state.price = countDaysTariff;
           break;
         case '7 дней':
-          state.price = state.car.priceMin + countWeeksTariff;
+          state.price = countWeeksTariff;
           break;
-        default: state.price = state.car.priceMin;
+        default: state.price = 0;
       }
     },
     setResultPrice(state, price) {

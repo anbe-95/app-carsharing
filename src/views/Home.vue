@@ -17,12 +17,7 @@
             <a href="/">{{ title }}</a>
             <div class="city">
               <img src="../assets/images/vector.svg" alt="icon">
-              <cs-autocomplete
-                v-model="cityValue"
-                :items="cities"
-                :default-value="city"
-                @input="setGlobalCity(cityValue)"
-              />
+              <cs-select :items="cities"/>
             </div>
           </div>
         </div>
@@ -48,20 +43,20 @@
 </template>
 
 <script>
-import CsAutocomplete from '@/components/elements/cs-autocomplete.vue';
 import CsButton from '@/components/elements/cs-button.vue';
 import CsBurger from '@/components/cs-burger.vue';
 import CsCarousel from '@/components/cs-carousel.vue';
+import CsSelect from '@/components/elements/cs-select.vue';
 
 import { mapActions, mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'HelloWorld',
   components: {
+    CsSelect,
     CsCarousel,
     CsBurger,
     CsButton,
-    CsAutocomplete,
   },
   data() {
     return {
@@ -127,6 +122,7 @@ export default {
 .home {
   display: flex;
   height: 100vh;
+  min-width: 320px;
 
   .block {
     background-color: #151B1F;

@@ -100,6 +100,16 @@
             Превышает максимальную допустимую цену: {{ currentCar.priceMax }} ₽.
             Измените длительность аренды или тариф.
           </h4>
+          <h4
+            v-if="
+              currentCar && $route.name === 'Addition'
+               && $store.getters.getCurrentPrice < currentCar.priceMin
+            "
+            class="error-message"
+          >
+            Текущая стоимость меньше минимально допустимой: {{ currentCar.priceMin }} ₽.
+            Измените длительность аренды или тариф.
+          </h4>
           <router-link v-if="$route.name === 'Location'" :to="{ name: 'Model' }" class="cs-button">
             <cs-button
               text="Выбрать модель"
@@ -107,10 +117,10 @@
             />
           </router-link>
           <router-link v-if="$route.name === 'Model'" :to="{ name: 'Addition' }" class="cs-button">
-            <cs-button text="Дополнительно" :disabled="!(car && car.id)" />
+            <cs-button text="Дополнительно" :disabled="!(car && car.id)"/>
           </router-link>
           <router-link v-if="$route.name === 'Addition'" :to="{ name: 'Total' }" class="cs-button">
-            <cs-button text="Итого" :disabled="!$store.getters.isOrderDone" />
+            <cs-button text="Итого" :disabled="!$store.getters.isOrderDone"/>
           </router-link>
           <cs-button
             v-if="$route.name === 'Total' && !status"
@@ -124,7 +134,7 @@
             tag="button"
             class="cancel"
           >
-            <cs-button text="Отменить" @click="cancel()" />
+            <cs-button text="Отменить" @click="cancel()"/>
           </router-link>
         </div>
       </div>
@@ -221,11 +231,12 @@ export default {
         rateId: tariff.rateTypeId.id,
         color,
       };
-      await clientService.postOrder({ ...formData }).then(({ data }) => {
-        this.status = 'Ваш заказ подтверждён';
-        this.statusId = `Заказ номер RU${data.id}`;
-        this.isVerification = !this.isVerification;
-      });
+      await clientService.postOrder({ ...formData })
+        .then(({ data }) => {
+          this.status = 'Ваш заказ подтверждён';
+          this.statusId = `Заказ номер RU${data.id}`;
+          this.isVerification = !this.isVerification;
+        });
     },
   },
 };
@@ -236,18 +247,19 @@ export default {
 
 .modal-window {
   display: none;
-  position: absolute;
-  opacity: 0.9;
-  background: white;
+  position: fixed;
+  background: rgba(255, 255, 255, 0.9);
   z-index: 3;
   min-width: 100%;
   min-height: 100vh;
+
   .content {
     position: absolute;
     width: 405px;
     height: 157px;
     left: 35%;
     top: 35%;
+
     p {
       padding-left: 70px;
       font-size: 24px;
@@ -259,20 +271,24 @@ export default {
     height: 48px;
     background-blend-mode: darken;
     color: white;
+
     &.success {
       background: linear-gradient(90deg, #0EC261 2.61%, #039F67 112.6%);
       border-radius: 8px;
       margin-right: 16px;
       width: 177px;
     }
+
     &.cancel {
       background: linear-gradient(90deg, #493013 0%, #7B0C3B 100%);
       border-radius: 4px;
       width: 164px;
     }
+
     &:hover {
       filter: brightness(80%);
     }
+
     &:active {
       filter: brightness(60%);
     }
@@ -286,6 +302,7 @@ export default {
 .rent {
   display: flex;
   height: 100%;
+  min-width: 320px;
 
   .block {
     background-color: #151B1F;
@@ -342,6 +359,7 @@ export default {
         justify-content: space-between;
         border-bottom: 1px solid #EEEEEE;
         padding: 32px 64px;
+        align-items: center;
 
         a {
           font-size: 30px;
@@ -386,6 +404,7 @@ export default {
         width: 70%;
         border-right: 1px solid #EEEEEE;
         padding: 32px 64px;
+
         h2 {
           font-weight: 400;
           margin-bottom: 20px;
@@ -395,6 +414,10 @@ export default {
       &__right {
         width: 30%;
         padding: 32px;
+
+        .cs-button {
+          width: 100%;
+        }
 
         h3 {
           text-align: right;
@@ -409,7 +432,7 @@ export default {
 
         h4 {
           font-size: 16px;
-          margin: 32px 0px;
+          margin: 32px 0;
 
           &.error-message {
             border: 1px solid grey;
@@ -421,15 +444,6 @@ export default {
           }
         }
 
-        .v-btn {
-          font-size: 18px;
-          height: 48px;
-          text-transform: none;
-          margin-top: 20px;
-          color: white;
-          background-color: #EEEEEE;
-        }
-
         .order-item {
           display: flex;
           min-width: 100%;
@@ -438,21 +452,74 @@ export default {
           font-size: 14px;
           font-weight: 300;
           margin-bottom: 16px;
+
           span {
             margin-right: 10px;
-            margin-left: 0px;
+            margin-left: 0;
             width: 100%;
           }
+
           .empty {
             display: flex;
             border-bottom: 1px dotted gray;
             width: 100%;
             margin-bottom: 6px;
           }
+
           .result {
             color: #999999;
-            margin-right: 0px;
+            margin-right: 0;
             margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .rent {
+    .main {
+      .header {
+        &__up {
+          padding: 16px 32px;
+
+          a {
+            font-size: 26px;
+          }
+        }
+
+        &__down {
+          font-size: 10px;
+          font-weight: 400;
+          padding-left: 32px;
+        }
+      }
+
+      .body {
+        &__left {
+          padding: 32px 32px;
+        }
+
+        &__right {
+          padding: 16px;
+
+          h3 {
+            text-align: center;
+            font-size: 16px;
+          }
+
+          h4 {
+            font-size: 14px;
+          }
+
+          span {
+            font-size: 12px;
+          }
+
+          .cs-button {
+            font-size: 15px;
+            height: 40px;
           }
         }
       }
@@ -464,6 +531,116 @@ export default {
   .rent {
     .block {
       display: none;
+    }
+
+    .main {
+      width: 100%;
+
+      .header {
+        &__up {
+          padding: 8px 0 8px 8px;
+
+          a {
+            font-size: 22px;
+          }
+        }
+
+        &__down {
+          padding-left: 8px;
+          font-size: 10px;
+
+          img {
+            display: none;
+          }
+
+          a {
+            text-decoration: none;
+            color: #999999;
+            margin: 0 5px;
+
+            &.router-link-active {
+              color: #0EC261;
+            }
+          }
+        }
+      }
+
+      .body {
+        &__left {
+          padding: 32px 16px;
+        }
+
+        &__right {
+          padding: 8px;
+
+          h3 {
+            text-align: start;
+            font-size: 14px;
+          }
+
+          h4 {
+            font-size: 12px;
+          }
+
+          span {
+            font-size: 10px;
+          }
+
+          .cs-button {
+            font-size: 12px;
+            height: 35px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .rent {
+    .main {
+      width: 100%;
+
+      .header {
+        &__up {
+          padding: 8px 0 8px 8px;
+
+          a {
+            font-size: 20px;
+          }
+        }
+
+        &__down {
+          padding-left: 8px;
+          font-size: 10px;
+        }
+      }
+
+      .body {
+        &__left {
+          padding: 16px 8px;
+        }
+
+        &__right {
+          padding: 4px;
+
+          h3 {
+            font-size: 12px;
+          }
+
+          h4 {
+            font-size: 10px;
+          }
+
+          span {
+            font-size: 8px;
+          }
+          .cs-button {
+            font-size: 10px;
+            height: 30px;
+          }
+        }
+      }
     }
   }
 }

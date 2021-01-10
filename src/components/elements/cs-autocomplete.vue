@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'City',
+  name: 'CsAutocomplete',
   props: {
     items: {
       type: Array,
@@ -50,7 +50,6 @@ export default {
 
 input {
   font-size: 14px;
-  text-align: start;
   color: gray;
   outline: none;
 

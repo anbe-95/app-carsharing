@@ -87,6 +87,9 @@ export default {
         description: '',
         priceMax: '',
         priceMin: '',
+        categoryId: {
+          name: '',
+        },
       },
     };
   },
@@ -166,7 +169,6 @@ export default {
 
 .car-setting {
   background-color: #e5e5e5;
-
   width: 100%;
 
   h1, h2, h3, h4, p, label {
@@ -240,6 +242,7 @@ export default {
         flex-direction: column;
 
         input {
+          padding: 10px;
           border: 1px solid #becad6;
           border-radius: 4px;
           height: 30px;

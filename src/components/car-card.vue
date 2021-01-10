@@ -22,7 +22,7 @@ export default {
 
 .car-card {
   width: 50%;
-  height: 224px;
+  height: 250px;
   padding: 16px;
   border: 1px solid #EEEEEE;
 
@@ -36,8 +36,7 @@ export default {
   }
 
   img {
-    width: 256px;
-    height: 116px;
+    width: 100%;
   }
 
   &.selected {

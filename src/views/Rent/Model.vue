@@ -60,7 +60,8 @@ export default {
   },
 
   created() {
-    this.loadCars().then(() => this.loadCategories());
+    this.loadCars()
+      .then(() => this.loadCategories());
   },
 
   methods: {
@@ -94,6 +95,46 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: 736px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .model {
+    .cars {
+      flex-direction: column;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .model {
+    .cars {
+      width: 650px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .model {
+    .filtered {
+      flex-direction: column;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .model {
+    .cars {
+      width: 500px;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .model {
+    .cars {
+      width: 420px;
+    }
   }
 }
 

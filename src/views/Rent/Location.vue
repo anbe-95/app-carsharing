@@ -137,15 +137,11 @@ export default {
     flex-direction: column;
 
     &__city {
-      display: flex;
-    }
-
-    &__point {
-      display: flex;
-      align-items: center;
+      align-self: flex-end;
     }
 
     &__point, &__city {
+      display: flex;
       input {
         font-weight: 300;
         font-size: 16px;
@@ -170,8 +166,8 @@ export default {
 
     .ymap-container {
       padding-top: 5px;
-      width: 736px;
-      height: 352px;
+      width: 700px;
+      height: 350px;
     }
   }
 }
@@ -179,9 +175,9 @@ export default {
 @media (max-width: 1200px) {
   .location {
     .map {
-      img {
-        width: 600px;
-        height: auto;
+      .ymap-container {
+        width: 500px;
+        height: 300px;
       }
     }
   }
@@ -190,9 +186,9 @@ export default {
 @media (max-width: 900px) {
   .location {
     .map {
-      img {
-        width: 450px;
-        height: auto;
+      .ymap-container {
+        width: 300px;
+        height: 250px;
       }
     }
   }
@@ -200,10 +196,43 @@ export default {
 
 @media (max-width: 600px) {
   .location {
+    .selection {
+      &__point, &__city {
+        input {
+          font-size: 12px;
+        }
+      }
+
+      p {
+        font-size: 12px;
+      }
+    }
     .map {
-      img {
-        width: 300px;
-        height: auto;
+      .ymap-container {
+        width: 250px;
+        height: 150px;
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .location {
+    .selection {
+      &__point, &__city {
+        input {
+          font-size: 8px;
+        }
+      }
+
+      p {
+        font-size: 8px;
+      }
+    }
+    .map {
+      .ymap-container {
+        width: 200px;
+        height: 125px;
       }
     }
   }
