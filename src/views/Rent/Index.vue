@@ -376,6 +376,10 @@ export default {
         padding-left: 64px;
         font-size: 14px;
         font-weight: 700;
+        .step {
+          display: flex;
+          align-items: center;
+        }
 
         a {
           text-decoration: none;
