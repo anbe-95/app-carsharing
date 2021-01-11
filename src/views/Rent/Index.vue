@@ -252,12 +252,12 @@ export default {
   z-index: 3;
   min-width: 100%;
   min-height: 100vh;
+  align-items: center;
+  justify-content: center;
 
   .content {
     position: absolute;
     height: 157px;
-    left: 35%;
-    top: 35%;
 
     p {
       padding-left: 70px;
@@ -294,7 +294,7 @@ export default {
   }
 
   &.verification {
-    display: block;
+    display: flex;
   }
 }
 
