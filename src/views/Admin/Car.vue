@@ -1,5 +1,14 @@
 <template>
   <div class="car-setting">
+    <div class="car-save" v-if="success">
+      <p>
+        <img src="@/assets/images/checkmark2.svg" alt="icon">
+        Успех! Машина сохранена
+      </p>
+      <button @click="success = false">
+        <img src="@/assets/images/close-check.svg" alt="icon">
+      </button>
+    </div>
     <h1>Карточка автомобиля</h1>
     <div class="auto">
       <div class="auto__card">
@@ -64,7 +73,6 @@
         </div>
       </div>
     </div>
-    <div class="car-save"></div>
   </div>
 </template>
 
@@ -75,6 +83,7 @@ export default {
   name: 'Car',
   data() {
     return {
+      success: false,
       file: null,
       showPreview: false,
       imagePreview: '',
@@ -137,9 +146,14 @@ export default {
         formData.append('thumbnail', this.file);
       }
       if (this.isEdit) {
-        this.car = await this.updateCar({ id: this.carId, formData });
+        this.car = await this.updateCar({
+          id: this.carId,
+          formData,
+        })
+          .then(() => this.success = true);
       } else {
-        const id = await this.createCar(formData);
+        const id = await this.createCar(formData)
+          .then(() => this.success = true);
         this.$router.push({
           name: 'Car',
           params: { id },
@@ -170,6 +184,29 @@ export default {
 .car-setting {
   background-color: #e5e5e5;
   width: 100%;
+
+  .car-save {
+    background-color: #0ec261;
+    display: flex;
+    justify-content: space-between;
+    width: calc(100% + 60px);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    left: 0;
+    margin-top: -27px;
+    margin-left: -27px;
+    padding: 12px;
+
+    p {
+      display: flex;
+      color: white;
+      font-weight: 300;
+      img {
+        margin-right: 10px;
+      }
+    }
+  }
 
   h1, h2, h3, h4, p, label {
     font-weight: 400;
@@ -203,6 +240,7 @@ export default {
       &_image {
         height: 145px;
       }
+
       label {
         width: 100%;
         border-bottom: 1px solid #E5E5E5;
@@ -325,10 +363,6 @@ export default {
         }
       }
     }
-  }
-  .car-save {
-    width: 100%;
-    background: #0ec261;
   }
 }
 

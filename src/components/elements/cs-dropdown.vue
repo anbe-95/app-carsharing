@@ -11,7 +11,7 @@
       </template>
       <v-list>
         <v-list-item>
-          <v-list-item-title>Выйти</v-list-item-title>
+          <v-list-item-title @click="logout()">Выйти</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -21,6 +21,12 @@
 <script>
 export default {
   name: 'CsDropdown',
+  methods: {
+    async logout() {
+      await this.$store.dispatch('logout')
+        .then(() => this.$router.push({ name: 'Login' }));
+    },
+  },
 };
 </script>
 

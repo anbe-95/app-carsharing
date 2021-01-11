@@ -40,7 +40,23 @@ const actions = {
     }
   },
 
-  async checkAuth({ commit, getters }) {
+  logout({ commit }) {
+    commit('setUserId', null);
+    commit(
+      'setTokens',
+      {
+        access: null,
+        refresh: null,
+      },
+    );
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  },
+
+  async checkAuth({
+    commit,
+    getters,
+  }) {
     if (getters.isAuth) return true;
     try {
       const { id } = await authService.check();
