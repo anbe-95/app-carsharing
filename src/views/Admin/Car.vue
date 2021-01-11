@@ -20,7 +20,6 @@
         <label>
           <input type="file" ref="file" @change="fileUpload" accept="image/*">
         </label>
-        <p>Заполнено</p>
       </div>
       <div class="auto__info">
         <h3>Настройки автомобиля</h3>
@@ -65,6 +64,7 @@
         </div>
       </div>
     </div>
+    <div class="car-save"></div>
   </div>
 </template>
 
@@ -200,25 +200,15 @@ export default {
         margin-bottom: 10px;
       }
 
-      p {
-        box-shadow: 0px -1px 0px rgba(0, 0, 0, 0.12), 0px 1px 0px rgba(0, 0, 0, 0.12);
-        width: 100%;
-        height: 60px;
-        padding: 10px;
-        margin-top: 22.5px;
-      }
-
       &_image {
         height: 145px;
       }
-
-      textarea {
-        padding: 21px;
+      label {
         width: 100%;
-
-        &:focus {
-          outline: none;
-        }
+        border-bottom: 1px solid #E5E5E5;
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: center;
       }
     }
 
@@ -240,6 +230,7 @@ export default {
       label {
         display: flex;
         flex-direction: column;
+        margin-bottom: 25px;
 
         input {
           padding: 10px;
@@ -262,7 +253,7 @@ export default {
 
       &_colors {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         position: relative;
 
         input {
@@ -334,6 +325,10 @@ export default {
         }
       }
     }
+  }
+  .car-save {
+    width: 100%;
+    background: #0ec261;
   }
 }
 

@@ -38,6 +38,7 @@
         </div>
         <div class="main__header-profile">
           <img src="../../assets/images/admin_icon.png" alt="admin">Admin
+          <cs-dropdown/>
         </div>
       </div>
       <div v-if="!loading" class="main__content">
@@ -48,10 +49,15 @@
 </template>
 
 <script>
+import CsDropdown from '@/components/elements/cs-dropdown.vue';
+
 import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'Index',
+  components: {
+    CsDropdown,
+  },
   data: () => ({
     loading: true,
     loadingNewOrdersCount: false,
@@ -169,6 +175,9 @@ export default {
         img {
           height: 48px;
           margin-right: 10px;
+        }
+        .cs-dropdown {
+          margin-left: 5px;
         }
       }
     }
