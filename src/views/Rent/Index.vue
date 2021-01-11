@@ -627,17 +627,6 @@ export default {
         &__right {
           padding: 4px;
 
-          h3 {
-            font-size: 12px;
-          }
-
-          h4 {
-            font-size: 10px;
-          }
-
-          span {
-            font-size: 8px;
-          }
           .cs-button {
             font-size: 10px;
             height: 30px;
