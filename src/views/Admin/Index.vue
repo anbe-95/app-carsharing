@@ -16,6 +16,26 @@
     </div>
     <div class="main">
       <div class="main__header">
+        <div class="main__new-orders">
+          <v-progress-circular
+            v-if="loadingNewOrdersCount"
+            indeterminate
+            color="#818EA3"
+          />
+          <v-badge
+            v-else
+            :content="newOrdersCount"
+            :value="newOrdersCount"
+            color="#C4183C"
+            bottom
+            overlap
+            :offset-x="10"
+          >
+            <v-icon color="#818EA3" medium>
+              mdi-bell
+            </v-icon>
+          </v-badge>
+        </div>
         <div class="main__header-profile">
           <img src="../../assets/images/admin_icon.png" alt="admin">Admin
         </div>
@@ -28,14 +48,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'Index',
   data: () => ({
     loading: true,
+    loadingNewOrdersCount: false,
   }),
   computed: {
+    ...mapState('orders', ['newOrdersCount']),
+
     title() {
       return this.$store.state.title;
     },
@@ -43,6 +66,7 @@ export default {
   methods: {
     ...mapActions({
       checkAuth: 'checkAuth',
+      loadNewOrdersCount: 'orders/loadNewOrdersCount',
     }),
   },
   async created() {
@@ -52,6 +76,10 @@ export default {
     if (!result) {
       this.$router.push({ name: 'Login' });
     }
+
+    this.loadingNewOrdersCount = true;
+    this.loadNewOrdersCount()
+      .finally(() => this.loadingNewOrdersCount = false);
 
     this.loading = false;
   },
@@ -115,6 +143,14 @@ export default {
     width: calc(100% - 285px);
     background-color: #e5e5e5;
 
+    &__new-orders {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80px;
+      border-left: 1px solid #cacedb;
+    }
+
     &__header {
       background-color: #fff;
       height: 68px;
@@ -125,13 +161,14 @@ export default {
       &-profile {
         width: 250px;
         height: 100%;
+        padding-left: 25px;
         border-left: 1px solid #cacedb;
         display: flex;
         align-items: center;
 
         img {
           height: 48px;
-          margin-right: 5px;
+          margin-right: 10px;
         }
       }
     }

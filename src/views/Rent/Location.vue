@@ -137,15 +137,20 @@ export default {
     flex-direction: column;
 
     &__city {
+      display: flex;
+      align-items: center;
       align-self: flex-end;
+      margin-bottom: 10px;
     }
 
     &__point, &__city {
       display: flex;
+
       input {
         font-weight: 300;
         font-size: 16px;
         border-bottom: 1px solid #999999;
+
         &::-webkit-calendar-picker-indicator {
           display: none;
         }
@@ -165,77 +170,78 @@ export default {
     height: 100%;
 
     .ymap-container {
-      padding-top: 5px;
+      padding-top: 10px;
       width: 700px;
       height: 350px;
     }
   }
 }
 
-@media (max-width: 1200px) {
-  .location {
-    .map {
-      .ymap-container {
-        width: 500px;
-        height: 300px;
+  @media (max-width: 1200px) {
+    .location {
+      .map {
+        .ymap-container {
+          width: 500px;
+          height: 300px;
+        }
       }
     }
   }
-}
 
-@media (max-width: 900px) {
-  .location {
-    .map {
-      .ymap-container {
-        width: 300px;
-        height: 250px;
+  @media (max-width: 900px) {
+    .location {
+      .map {
+        .ymap-container {
+          width: 300px;
+          height: 250px;
+        }
       }
     }
   }
-}
 
-@media (max-width: 600px) {
-  .location {
-    .selection {
-      &__point, &__city {
-        input {
+  @media (max-width: 600px) {
+    .location {
+      .selection {
+        &__point, &__city {
+          input {
+            font-size: 12px;
+          }
+        }
+
+        p {
           font-size: 12px;
         }
       }
 
-      p {
-        font-size: 12px;
-      }
-    }
-    .map {
-      .ymap-container {
-        width: 250px;
-        height: 150px;
+      .map {
+        .ymap-container {
+          width: 250px;
+          height: 150px;
+        }
       }
     }
   }
-}
 
-@media (max-width: 400px) {
-  .location {
-    .selection {
-      &__point, &__city {
-        input {
+  @media (max-width: 400px) {
+    .location {
+      .selection {
+        &__point, &__city {
+          input {
+            font-size: 8px;
+          }
+        }
+
+        p {
           font-size: 8px;
         }
       }
 
-      p {
-        font-size: 8px;
-      }
-    }
-    .map {
-      .ymap-container {
-        width: 200px;
-        height: 125px;
+      .map {
+        .ymap-container {
+          width: 200px;
+          height: 125px;
+        }
       }
     }
   }
-}
-
 </style>

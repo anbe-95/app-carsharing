@@ -34,6 +34,10 @@ export default {
     flex-direction: column;
     justify-content: center;
 
+    p {
+      margin-top: 8px;
+    }
+
     span {
       border: 1px solid #999999;
       border-radius: 4px;
@@ -57,6 +61,15 @@ export default {
 
 @media (max-width: 400px) {
   .total {
+    .description {
+      p {
+        font-size: 14px;
+      }
+
+      span {
+        font-size: 14px;
+      }
+    }
     .car {
       img {
         width: 200px;

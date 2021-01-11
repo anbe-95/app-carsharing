@@ -8,6 +8,10 @@ export class OrdersService extends ApiService {
   updateOrder(id, data) {
     return this.api.put(`/db/order/${id}`, data);
   }
+
+  getOrderStatuses() {
+    return this.api.get('/db/orderStatus');
+  }
 }
 
 export default new OrdersService();

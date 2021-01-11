@@ -258,6 +258,7 @@ export default {
       outline: none;
       border-bottom: 1px solid gray;
       position: relative;
+      width: 224px;
 
       &::-webkit-calendar-picker-indicator {
         background: none;
@@ -291,7 +292,7 @@ export default {
 
     p {
       font-size: 12px;
-      padding-bottom: 0;
+      padding-bottom: 12px;
     }
 
     .colors {
@@ -302,6 +303,9 @@ export default {
     .date {
       font-size: 12px;
       margin-bottom: 28px;
+      input {
+        width: 180px;
+      }
     }
 
     .tariff {

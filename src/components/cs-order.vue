@@ -5,7 +5,7 @@
       <div class="cs-order__content-info">
         <p>
           <b>{{ carName }}</b> в <b>{{ order.cityId.name }}</b>,
-          <br/> {{ order.pointId.address }}
+          <br /> {{ order.pointId.address }}
         </p>
         <p>{{ order.dateFrom | formatDate }} - {{ order.dateTo | formatDate }}</p>
         <p>Цвет: <b>{{ order.color }}</b></p>
@@ -27,18 +27,41 @@
       </div>
     </div>
     <h1 style="white-space: nowrap">{{ order.price }} ₽</h1>
+    <div class="cs-order__actions">
+      <v-btn
+        outlined
+        small
+        class="cs-order__action"
+        @click="onEditOrder"
+      >
+        <v-icon
+          color="#818EA3"
+          small
+        >
+          mdi-dots-vertical
+        </v-icon>
+        Изменить
+      </v-btn>
+    </div>
+    <cs-order-edit-dialog
+      v-model="showEditDialog"
+      :order="order"
+    />
   </div>
 </template>
 
 <script>
 import dayjs from 'dayjs';
 import CsCheckbox from '@/components/elements/cs-checkbox.vue';
+import CsOrderEditDialog from '@/components/cs-order-edit-dialog.vue';
 
-const formatDate = (date) => dayjs(date).format('DD.MM.YYYY HH:MM');
+const formatDate = (date) => dayjs(date)
+  .format('DD.MM.YYYY HH:MM');
 
 export default {
   name: 'cs-order',
   components: {
+    CsOrderEditDialog,
     CsCheckbox,
   },
   filters: {
@@ -68,14 +91,20 @@ export default {
           key: 'isRightWheel',
         },
       ],
+      showEditDialog: false,
     };
   },
   computed: {
     carName() {
-      return this.order.carId.name;
+      return this.order.carId?.name;
     },
     thumbnail() {
       return this.order.carId?.thumbnail?.path;
+    },
+  },
+  methods: {
+    onEditOrder() {
+      this.showEditDialog = true;
     },
   },
 };
@@ -87,6 +116,22 @@ export default {
     display: flex;
     justify-content: space-between;
     margin: 0 20px;
+  }
+
+  &__action {
+    border: 0.5px solid #becad6;
+    text-transform: none;
+    font-size: 11px;
+    line-height: 13px;
+    letter-spacing: -0.345714px;
+    color: #5a6169;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 15px;
+    width: 100%;
   }
 
   &__thumbnail {
