@@ -5,7 +5,7 @@
       <div class="cs-order__content-info">
         <p>
           <b>{{ carName }}</b> в <b>{{ order.cityId.name }}</b>,
-          <br /> {{ order.pointId.address }}
+          <br/> {{ order.pointId.address }}
         </p>
         <p>{{ order.dateFrom | formatDate }} - {{ order.dateTo | formatDate }}</p>
         <p>Цвет: <b>{{ order.color }}</b></p>
@@ -115,7 +115,6 @@ export default {
   &__info-wrap {
     display: flex;
     justify-content: space-between;
-    margin: 0 20px;
   }
 
   &__action {
@@ -130,8 +129,7 @@ export default {
   &__actions {
     display: flex;
     justify-content: flex-end;
-    padding-top: 15px;
-    width: 100%;
+    align-items: center;
   }
 
   &__thumbnail {
@@ -142,6 +140,7 @@ export default {
   &__content {
     width: 100%;
     display: flex;
+    justify-content: space-between;
     margin-bottom: 40px;
 
     img {
@@ -149,10 +148,7 @@ export default {
     }
 
     &-info {
-      width: 100%;
-      max-width: 300px;
-      min-width: 300px;
-      margin-right: 40px;
+      width: 350px;
 
       p {
         color: #889098;
@@ -166,7 +162,11 @@ export default {
 
     &-service {
       width: 200px;
-      min-width: 200px;
+    }
+
+    h1 {
+      display: flex;
+      align-items: center;
     }
 
     &-control {
@@ -206,4 +206,81 @@ export default {
     }
   }
 }
+
+@media (max-width: 1400px) {
+  .cs-order {
+    &__content {
+      &-info {
+        width: 300px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1250px) {
+  .cs-order {
+    &__content {
+      &-info {
+        width: 250px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .cs-order {
+    &__content {
+
+      &-info {
+        width: 200px;
+
+        p {
+          font-size: 11px;
+        }
+      }
+
+      &-service {
+        width: 170px;
+
+        &-item {
+          label {
+            font-size: 12px;
+          }
+        }
+      }
+      h1 {
+        font-size: 26px;
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .cs-order {
+    &__content {
+
+      &-info {
+        width: 200px;
+
+        p {
+          font-size: 11px;
+        }
+      }
+
+      &-service {
+        width: 170px;
+
+        &-item {
+          label {
+            font-size: 12px;
+          }
+        }
+      }
+      h1 {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
 </style>

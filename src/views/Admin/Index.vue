@@ -37,7 +37,8 @@
           </v-badge>
         </div>
         <div class="main__header-profile">
-          <img src="../../assets/images/admin_icon.png" alt="admin">Admin
+          <img src="../../assets/images/admin_icon.png" alt="admin">
+          <p>Admin</p>
           <cs-dropdown/>
         </div>
       </div>
@@ -97,6 +98,7 @@ export default {
 .admin {
   display: flex;
   width: 100%;
+  min-width: 320px;
 
   .nav-menu {
     background-color: white;
@@ -112,6 +114,7 @@ export default {
 
       img {
         margin-left: 52px;
+        font-size: 12px;
       }
 
       p {
@@ -176,6 +179,7 @@ export default {
           height: 48px;
           margin-right: 10px;
         }
+
         .cs-dropdown {
           margin-left: 5px;
         }
@@ -187,4 +191,250 @@ export default {
     }
   }
 }
+
+@media(max-width: 1200px) {
+  .admin {
+    .nav-menu {
+      width: 200px;
+
+      &_item {
+        height: 60px;
+
+        img {
+          margin-left: 25px;
+        }
+
+        p {
+          margin-left: 7px;
+          font-size: 14px;
+        }
+      }
+
+      a {
+        height: 60px;
+        padding-left: 25px;
+        font-size: 14px;
+      }
+    }
+
+    .main {
+      width: calc(100% - 200px);
+
+      &__new-orders {
+        width: 60px;
+
+        .v-badge {
+          .v-icon {
+            font-size: 22px;
+          }
+        }
+      }
+
+      &__header {
+        height: 60px;
+
+        &-profile {
+          width: 200px;
+          padding-left: 18px;
+
+          img {
+            height: 46px;
+            margin-right: 10px;
+          }
+
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+      &__content {
+        padding: 20px;
+      }
+    }
+  }
+}
+
+@media(max-width: 900px) {
+  .admin {
+    .nav-menu {
+      width: 180px;
+
+      &_item {
+        height: 55px;
+
+        img {
+          margin-left: 20px;
+        }
+
+        p {
+          margin-left: 7px;
+          font-size: 12px;
+        }
+      }
+
+      a {
+        height: 55px;
+        padding-left: 20px;
+        font-size: 14px;
+      }
+    }
+
+    .main {
+      width: calc(100% - 180px);
+
+      &__new-orders {
+        justify-content: flex-start;
+        width: 60px;
+
+        .v-badge {
+          .v-icon {
+            font-size: 20px;
+          }
+        }
+      }
+
+      &__header {
+        height: 55px;
+
+        &-profile {
+          width: 180px;
+          padding-left: 12px;
+
+          img {
+            height: 44px;
+            margin-right: 10px;
+          }
+
+          p {
+            font-size: 12px;
+          }
+        }
+      }
+      &__content {
+        padding: 15px;
+      }
+    }
+  }
+}
+
+@media(max-width: 600px) {
+  .admin {
+    .nav-menu {
+      width: 100px;
+
+      &_item {
+        height: 50px;
+
+        img {
+          margin-left: 5px;
+        }
+
+        p {
+          margin-left: 5px;
+          font-size: 10px;
+        }
+      }
+
+      a {
+        height: 50px;
+        padding-left: 5px;
+        font-size: 10px;
+      }
+    }
+
+    .main {
+      width: calc(100% - 100px);
+
+      &__new-orders {
+        width: 60px;
+
+        .v-badge {
+          .v-icon {
+            font-size: 18px;
+          }
+        }
+      }
+
+      &__header {
+        height: 50px;
+
+        &-profile {
+          width: 100px;
+          padding-left: 5px;
+
+          img {
+            height: 40px;
+            margin-right: 5px;
+          }
+
+          p {
+            font-size: 10px;
+          }
+        }
+      }
+      &__content {
+        padding: 10px;
+      }
+    }
+  }
+}
+
+@media(max-width: 450px) {
+  .admin {
+    .nav-menu {
+      width: 65px;
+
+      &_item {
+        justify-content: center;
+        height: 45px;
+
+        img {
+          margin-left: 5px;
+        }
+
+        p {
+          display: none;
+        }
+      }
+      .router-link-active {
+        border-left: 2px solid #007bff;
+      }
+
+      a {
+        height: 45px;
+        padding-left: 5px;
+        font-size: 10px;
+      }
+    }
+
+    .main {
+      width: calc(100% - 50px);
+
+      &__new-orders {
+        width: 60px;
+      }
+
+      &__header {
+        height: 45px;
+
+        &-profile {
+          width: 100px;
+          padding-left: 5px;
+
+          img {
+            height: 35px;
+          }
+
+          p {
+            font-size: 10px;
+          }
+        }
+      }
+      &__content {
+        padding: 5px;
+      }
+    }
+  }
+}
+
 </style>

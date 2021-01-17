@@ -189,7 +189,6 @@ export default {
     background-color: #0ec261;
     display: flex;
     justify-content: space-between;
-    width: calc(100% + 60px);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -225,6 +224,7 @@ export default {
       background-color: white;
       width: 335px;
       height: 506px;
+      margin-bottom: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -251,9 +251,8 @@ export default {
     }
 
     &__info {
-      padding: 18px;
+      padding: 10px;
       background-color: white;
-      width: 700px;
       height: 800px;
       margin-left: 28px;
       border-radius: 9px;
@@ -269,6 +268,7 @@ export default {
         display: flex;
         flex-direction: column;
         margin-bottom: 25px;
+        margin-right: 5px;
 
         input {
           padding: 10px;
@@ -360,6 +360,66 @@ export default {
           background: #cb3656;
           color: white;
           margin-left: 320px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .car-setting {
+    .auto {
+      &__info {
+        width: 100%;
+        &_model {
+          flex-direction: column;
+          label {
+            input {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .car-setting {
+    h1 {
+      font-size: 26px;
+    }
+    .auto {
+      flex-direction: column;
+      &__card {
+        align-self: center;
+        height: 300px;
+      }
+      &__info {
+        margin: 0;
+        align-self: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .car-setting {
+    h1 {
+      font-size: 22px;
+    }
+    .auto {
+      flex-direction: column;
+      &__card {
+        width: 250px;
+      }
+      &__info {
+        &_colors {
+          label {
+            input {
+              width: 200px
+            }
+          }
         }
       }
     }

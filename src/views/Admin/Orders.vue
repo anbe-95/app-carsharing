@@ -103,7 +103,6 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 21px;
-    width: 1062px;
     min-height: 300px;
     background-color: white;
     border-radius: 9px;
@@ -126,4 +125,34 @@ export default {
     }
   }
 }
+
+@media (max-width: 1200px) {
+
+  .orders {
+    h1 {
+      font-size: 26px;
+      margin-bottom: 28px;
+    }
+
+    &__items {
+      padding: 15px 5px;
+      min-height: 300px;
+    }
+
+    &__pagination {
+      width: 1062px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #EEEEEE;
+
+      ::v-deep {
+        .v-pagination__navigation,
+        .v-pagination__item {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
 </style>
