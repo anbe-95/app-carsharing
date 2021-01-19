@@ -132,4 +132,28 @@ export default {
   }
 }
 
+@media (max-width: 900px) {
+  .cars {
+    &__table {
+      .v-btn {
+        width: 100px;
+        height: 35px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .cars {
+    &__table {
+      .v-btn {
+        height: 30px;
+        width: 80px;
+        font-size: 10px;
+      }
+    }
+  }
+}
+
 </style>

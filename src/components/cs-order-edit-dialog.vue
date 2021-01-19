@@ -17,47 +17,6 @@
             full-width
             range
           />
-<!--          <v-menu-->
-<!--            ref="menu"-->
-<!--            v-model="isShowTimeMenu"-->
-<!--            :close-on-content-click="false"-->
-<!--            :nudge-right="40"-->
-<!--            transition="scale-transition"-->
-<!--            offset-y-->
-<!--          >-->
-<!--            <template v-slot:activator="{ on, attrs }">-->
-<!--              <v-text-field-->
-<!--                v-model="time"-->
-<!--                label="Время заказа"-->
-<!--                prepend-icon="mdi-clock-time-four-outline"-->
-<!--                readonly-->
-<!--                v-bind="attrs"-->
-<!--                v-on="on"-->
-<!--              ></v-text-field>-->
-<!--            </template>-->
-<!--            <v-row-->
-<!--              justify="space-around"-->
-<!--              align="center"-->
-<!--              style="background: #fff; padding: 30px"-->
-<!--            >-->
-<!--              <v-col style="width: 350px; flex: 0 1 auto;">-->
-<!--                <h2>От:</h2>-->
-<!--                <v-time-picker-->
-<!--                  v-model="start"-->
-<!--                  :max="end"-->
-<!--                  format="24hr"-->
-<!--                />-->
-<!--              </v-col>-->
-<!--              <v-col style="width: 350px; flex: 0 1 auto;">-->
-<!--                <h2>До:</h2>-->
-<!--                <v-time-picker-->
-<!--                  v-model="end"-->
-<!--                  :min="start"-->
-<!--                  format="24hr"-->
-<!--                />-->
-<!--              </v-col>-->
-<!--            </v-row>-->
-<!--          </v-menu>-->
         </v-container>
       </v-card-text>
       <v-card-actions>

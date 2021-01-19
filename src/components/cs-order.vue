@@ -248,8 +248,19 @@ export default {
           }
         }
       }
+
       h1 {
         font-size: 26px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .cs-order {
+    &__content {
+      img {
+        display: none;
       }
     }
   }
@@ -276,6 +287,7 @@ export default {
           }
         }
       }
+
       h1 {
         font-size: 20px;
       }
