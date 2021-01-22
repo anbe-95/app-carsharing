@@ -20,6 +20,12 @@ export default {
   computed: {
     ...mapState(['car', 'startDate']),
   },
+  mounted() {
+    if (this.$route.query.statusId) {
+      this.$store.dispatch('loadOrderById', this.$route.query.statusId);
+      this.$store.commit('setStatusId', this.$route.query.statusId);
+    }
+  },
 };
 </script>
 

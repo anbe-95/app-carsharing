@@ -57,14 +57,6 @@ const routes = [
         path: 'total',
         name: 'Total',
         component: () => import('../views/Rent/Total.vue'),
-        beforeEnter: (to, from, next) => {
-          const { isOrderDone } = store.getters;
-          if (isOrderDone) {
-            next();
-          } else {
-            next(false);
-          }
-        },
       },
     ],
   },

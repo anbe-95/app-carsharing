@@ -35,6 +35,7 @@ export default new Vuex.Store({
     isNeedChildChair: false,
     isRightWheel: false,
     startDate: null,
+    statusId: null,
   },
   getters: {
     getCars: (state) => (value) => (value
@@ -91,6 +92,9 @@ export default new Vuex.Store({
       state.dateFrom = null;
       state.dateTo = null;
       state.additionalList = [];
+      state.isNeedChildChair = false;
+      state.isRightWheel = false;
+      state.isFullTank = false;
     },
     reloadStateFromModel(state) {
       state.color = null;
@@ -136,9 +140,11 @@ export default new Vuex.Store({
     setRate(state, rate) {
       state.rate = rate;
     },
+    setStatusId: (state, id) => {
+      state.statusId = id;
+    },
     setCar(state, car) {
       state.car = car;
-      state.order.car = car;
     },
     setCars(state, cars) {
       state.clientCars = cars;
@@ -165,6 +171,19 @@ export default new Vuex.Store({
     setDateTo: (state, date) => { state.dateTo = date; },
     setColor: (state, color) => { state.color = color; },
     setAdditional: (state, additional) => state.additionalList = additional,
+    setOrder: (state, order) => {
+      state.car = order.carId;
+      state.color = order.color;
+      state.dateFrom = order.dateFrom;
+      state.dateTo = order.dateTo;
+      state.isNeedChildChair = order.isNeedChildChair;
+      state.isRightWheel = order.isRightWheel;
+      state.isFullTank = order.isFullTank;
+      state.city = order.cityId.name;
+      state.point = order.pointId.address;
+      state.price = order.price;
+      state.statusId = order.id;
+    },
   },
   actions: {
     loadCars: async ({ state, commit }) => {
@@ -202,6 +221,10 @@ export default new Vuex.Store({
     loadRate: async ({ commit }) => {
       const { data } = await clientService.getRate();
       commit('setRate', data);
+    },
+    loadOrderById: async ({ commit }, id) => {
+      const { data } = await clientService.getOrderById(id);
+      commit('setOrder', data);
     },
   },
   modules: {

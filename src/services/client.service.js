@@ -32,6 +32,10 @@ export class ClientService extends ApiService {
   postOrder(form) {
     return this.api.post('db/order', { ...form });
   }
+
+  getOrderById(id) {
+    return this.api.get(`db/order/${id}`);
+  }
 }
 
 export default new ClientService();

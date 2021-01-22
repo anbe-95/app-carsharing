@@ -20,7 +20,7 @@
             @input="setGlobalCity(cityValue)"
           />
         </div>
-        <div class="header__down" v-if="!status">
+        <div class="header__down" v-if="!$store.state.statusId">
           <div class="step">
             <router-link to="/rent/location">Местоположение</router-link>
             <img src="../../assets/images/icon-arrow.svg" alt="icon">
@@ -39,13 +39,13 @@
         </div>
         <div class="header__down" v-else>
           <div class="step">
-            {{ statusId }}
+            Заказ номер RU{{ $store.state.statusId }}
           </div>
         </div>
       </div>
       <div class="body">
         <div class="body__left">
-          <h2 v-if="status">{{ status }}</h2>
+          <h2 v-if="$store.state.statusId">Ваш заказ подтверждён</h2>
           <router-view></router-view>
         </div>
         <div class="body__right">
@@ -75,8 +75,18 @@
             <div class="empty"></div>
             <span class="result">{{ $store.state.tariff.rateTypeId.name }}</span>
           </div>
-          <div class="order-item" v-for="(item, index) in additionalList" :key="index">
-            <span>{{ item.text }}</span>
+          <div class="order-item" v-if="$store.state.isFullTank">
+            <span>Полный бак</span>
+            <div class="empty"></div>
+            <span class="result">Да</span>
+          </div>
+          <div class="order-item" v-if="$store.state.isRightWheel">
+            <span>Правый руль</span>
+            <div class="empty"></div>
+            <span class="result">Да</span>
+          </div>
+          <div class="order-item" v-if="$store.state.isNeedChildChair">
+            <span>Детское кресло</span>
             <div class="empty"></div>
             <span class="result">Да</span>
           </div>
@@ -123,13 +133,13 @@
             <cs-button text="Итого" :disabled="!$store.getters.isOrderDone"/>
           </router-link>
           <cs-button
-            v-if="$route.name === 'Total' && !status"
+            v-if="$route.name === 'Total' && !$store.state.statusId"
             text="Заказать"
             @click="isVerification = !isVerification"
             :disabled="!(car)"
           />
           <router-link
-            v-if="$route.name === 'Total' && status"
+            v-if="$route.name === 'Total' && $store.state.statusId"
             :to="{ name: 'Location' }"
             tag="button"
             class="cancel"
@@ -200,8 +210,10 @@ export default {
       this.setCity(value);
     },
     cancel() {
-      this.status = false;
-      this.statusId = false;
+      this.$store.commit('setStatusId', null);
+      if (this.$route.query.statusId) {
+        delete this.$route.query.statusId;
+      }
       this.reloadStateFromLocation();
     },
     async submit() {
@@ -221,7 +233,7 @@ export default {
         orderStatusId: car.id,
         cityId: order.city[0].id,
         pointId: order.point[0].id,
-        carId: order.car.id,
+        carId: car.id,
         dateFrom,
         dateTo,
         isNeedChildChair,
@@ -234,8 +246,13 @@ export default {
       await clientService.postOrder({ ...formData })
         .then(({ data }) => {
           this.status = 'Ваш заказ подтверждён';
-          this.statusId = `Заказ номер RU${data.id}`;
           this.isVerification = !this.isVerification;
+          this.$store.commit('setStatusId', data.id);
+          this.$router.push({
+            query: {
+              statusId: data.id,
+            },
+          });
         });
     },
   },
