@@ -40,7 +40,7 @@
         >
           mdi-dots-vertical
         </v-icon>
-        Изменить
+        <span>Изменить</span>
       </v-btn>
     </div>
     <cs-order-edit-dialog
@@ -268,6 +268,17 @@ export default {
 
 @media (max-width: 900px) {
   .cs-order {
+    &__action {
+      &.v-size--small {
+        min-width: 0;
+        padding: 0;
+      }
+
+      span {
+        display: none;
+      }
+    }
+
     &__content {
 
       &-info {
@@ -291,6 +302,35 @@ export default {
       h1 {
         font-size: 20px;
       }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .cs-order {
+    &__content {
+      padding: 0 10px;
+      position: relative;
+
+      &-info {
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        font-size: 16px;
+        position: absolute;
+        right: 10px;
+        bottom: 10px
+      }
+    }
+
+    &__actions {
+      position: absolute;
+      right: 10px;
+    }
+
+    &__info-wrap {
+      flex-direction: column;
     }
   }
 }

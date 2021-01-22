@@ -392,6 +392,7 @@ export default {
     .auto {
       flex-direction: column;
       &__card {
+        width: 100%;
         align-self: center;
         height: 300px;
       }
