@@ -68,7 +68,7 @@
           <div class="order-item" v-if="currentDuration">
             <span>Длительность аренды</span>
             <div class="empty"></div>
-            <span class="result">{{ currentDuration }}</span>
+            <span class="result result_duration">{{ currentDuration }}</span>
           </div>
           <div class="order-item" v-if="currentDuration && $store.state.tariff">
             <span>Тариф</span>
@@ -142,7 +142,7 @@
             v-if="$route.name === 'Total' && $store.state.statusId"
             :to="{ name: 'Location' }"
             tag="button"
-            class="cancel"
+            class="cancel_button"
           >
             <cs-button text="Отменить" @click="cancel()"/>
           </router-link>
@@ -287,6 +287,7 @@ export default {
     height: 48px;
     background-blend-mode: darken;
     color: white;
+    outline: none;
 
     &.success {
       background: linear-gradient(90deg, #0EC261 2.61%, #039F67 112.6%);
@@ -392,6 +393,7 @@ export default {
         padding-left: 64px;
         font-size: 14px;
         font-weight: 700;
+
         .step {
           display: flex;
           align-items: center;
@@ -439,6 +441,22 @@ export default {
           width: 100%;
         }
 
+        .cancel_button {
+          width: 100%;
+
+          .cs-button {
+            background: linear-gradient(90deg, #493013 0%, #7B0C3B 100%);
+
+            &:hover {
+              filter: brightness(80%);
+            }
+
+            &:active {
+              filter: brightness(60%);
+            }
+          }
+        }
+
         h3 {
           text-align: right;
           margin-bottom: 26px;
@@ -476,7 +494,7 @@ export default {
           span {
             margin-right: 10px;
             margin-left: 0;
-            width: 100%;
+            white-space: nowrap;
           }
 
           .empty {
@@ -490,6 +508,12 @@ export default {
             color: #999999;
             margin-right: 0;
             margin-left: 10px;
+            text-align: right;
+            white-space: pre-wrap;
+
+            &_duration {
+              white-space: nowrap;
+            }
           }
         }
       }
@@ -533,8 +557,11 @@ export default {
             font-size: 14px;
           }
 
-          span {
-            font-size: 12px;
+          .order-item {
+            span {
+              font-size: 12px;
+              white-space: pre-wrap;
+            }
           }
 
           .cs-button {
