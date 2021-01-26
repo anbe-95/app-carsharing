@@ -5,10 +5,14 @@
       v-if="cars"
       :headers="headers"
       :items="cars"
-      item-key="name"
+      item-key="id"
       class="elevation-1 cars__table"
       :search="search"
+      :page.sync="page"
+      hide-default-footer
       :custom-filter="filterText"
+      :items-per-page="limit"
+      @page-count="pageCount = $event"
       @click:row="onClickCar"
     >
       <template v-slot:top>
@@ -30,6 +34,16 @@
           </v-btn>
         </div>
       </template>
+      <template v-slot:footer>
+        <div class="cars__pagination">
+          <v-pagination
+            v-model="page"
+            :length="pageCount"
+            :total-visible="5"
+            circle
+          />
+        </div>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -42,6 +56,9 @@ export default {
   data() {
     return {
       search: '',
+      page: 1,
+      pageCount: 0,
+      limit: 10,
     };
   },
   computed: {
@@ -130,6 +147,21 @@ export default {
       }
     }
   }
+  &__pagination {
+    width: 1062px;
+    margin: 20px 0;
+    padding: 20px 0;
+    border-top: 1px solid #EEEEEE;
+    outline: none;
+
+    ::v-deep {
+      .v-pagination__navigation,
+      .v-pagination__item {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+  }
 }
 
 @media (max-width: 900px) {
@@ -139,6 +171,19 @@ export default {
         width: 100px;
         height: 35px;
         font-size: 12px;
+      }
+    }
+    &__pagination {
+      width: 1062px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #EEEEEE;
+
+      ::v-deep {
+        .v-pagination__navigation,
+        .v-pagination__item {
+          box-shadow: none;
+        }
       }
     }
   }
