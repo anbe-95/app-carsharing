@@ -7,6 +7,10 @@ const state = {
   newOrdersCount: 0,
 };
 
+const getters = {
+  getNewOrderStatus: (state) => state.orderStatuses?.find((item) => item.name === 'new') || {},
+};
+
 const mutations = {
   setOrders: (state, { orders, total }) => {
     state.orders = orders;
@@ -48,6 +52,7 @@ const actions = {
 
 export default {
   state,
+  getters,
   mutations,
   actions,
   namespaced: true,

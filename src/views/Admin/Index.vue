@@ -22,24 +22,28 @@
             indeterminate
             color="#818EA3"
           />
-          <v-badge
+          <router-link
             v-else
-            :content="newOrdersCount"
-            :value="newOrdersCount"
-            color="#C4183C"
-            bottom
-            overlap
-            :offset-x="10"
+            :to="{ name: 'Orders', query: { status: getNewOrderStatus.id } }"
           >
-            <v-icon color="#818EA3" medium>
-              mdi-bell
-            </v-icon>
-          </v-badge>
+            <v-badge
+              :content="newOrdersCount"
+              :value="newOrdersCount"
+              color="#C4183C"
+              bottom
+              overlap
+              :offset-x="10"
+            >
+              <v-icon color="#818EA3" medium>
+                mdi-bell
+              </v-icon>
+            </v-badge>
+          </router-link>
         </div>
         <div class="main__header-profile">
           <img src="../../assets/images/admin_icon.png" alt="admin">
           <p>Admin</p>
-          <cs-dropdown/>
+          <cs-dropdown />
         </div>
       </div>
       <div v-if="!loading" class="main__content">
@@ -52,7 +56,7 @@
 <script>
 import CsDropdown from '@/components/elements/cs-dropdown.vue';
 
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'Index',
@@ -65,6 +69,7 @@ export default {
   }),
   computed: {
     ...mapState('orders', ['newOrdersCount']),
+    ...mapGetters('orders', ['getNewOrderStatus']),
 
     title() {
       return this.$store.state.title;
@@ -247,6 +252,7 @@ export default {
           }
         }
       }
+
       &__content {
         padding: 20px;
       }
@@ -310,6 +316,7 @@ export default {
           }
         }
       }
+
       &__content {
         padding: 15px;
       }
@@ -372,6 +379,7 @@ export default {
           }
         }
       }
+
       &__content {
         padding: 10px;
       }
@@ -396,6 +404,7 @@ export default {
           display: none;
         }
       }
+
       .router-link-active {
         border-left: 2px solid #007bff;
       }
@@ -430,6 +439,7 @@ export default {
           }
         }
       }
+
       &__content {
         padding: 5px;
       }

@@ -11,6 +11,34 @@
       </v-card-title>
       <v-card-text>
         <v-container>
+          <h3 class="mb-3">Статус заказа:</h3>
+          <v-select
+            v-model="form.orderStatusId"
+            :items="orderStatuses"
+            return-object
+            placeholder="Статус"
+            item-text="name"
+            item-value="id"
+            outlined
+            hide-details
+            height="30px"
+            class="mb-10"
+          />
+          <h3 class="mb-3">Авто:</h3>
+          <v-autocomplete
+            v-model="form.carId"
+            :items="cars"
+            :loading="isLoadingCars"
+            :disabled="isLoadingCars"
+            color="white"
+            hide-no-data
+            hide-selected
+            item-text="name"
+            item-value="id"
+            placeholder="Авто"
+            outlined
+            return-object
+          />
           <h3 class="mb-3">Дата заказа:</h3>
           <v-date-picker
             v-model="dates"
@@ -42,7 +70,7 @@
 
 <script>
 import dayjs from 'dayjs';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'cs-order-edit-dialog',
@@ -64,14 +92,20 @@ export default {
     form: {
       dateFrom: null,
       dateTo: null,
+      orderStatusId: null,
+      carId: null,
     },
+    isLoadingCars: false,
   }),
 
   watch: {
     value(val) {
       if (val) {
+        this.getCars();
         this.form.dateFrom = this.order.dateFrom;
         this.form.dateTo = this.order.dateTo;
+        this.form.orderStatusId = this.order.orderStatusId;
+        this.form.carId = this.order.carId;
         this.visible = true;
       }
     },
@@ -83,6 +117,9 @@ export default {
   },
 
   computed: {
+    ...mapState('orders', ['orderStatuses']),
+    ...mapState('cars', ['cars']),
+
     dates: {
       get() {
         const {
@@ -116,17 +153,12 @@ export default {
         }
       },
     },
-    // startTime: {
-    //   get: {},
-    //   set(value) {
-    //
-    //   },
-    // },
   },
 
   methods: {
     ...mapActions({
       updateOrder: 'orders/updateOrder',
+      loadCars: 'cars/loadCars',
     }),
 
     async onSaveOrder() {
@@ -137,6 +169,12 @@ export default {
       });
       this.sending = false;
       this.visible = false;
+    },
+
+    async getCars() {
+      this.isLoadingCars = true;
+      await this.loadCars();
+      this.isLoadingCars = false;
     },
   },
 };

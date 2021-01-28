@@ -52,18 +52,31 @@
         </p>
         <p>
           <label>Категория
-            <input type="text" v-model="car.categoryId.name">
+            <select v-model="car.categoryId">
+              <option
+                v-for="category of filteredCategories"
+                :key="category.id"
+                :value="category.id"
+              >
+                {{ category.name }}
+              </option>
+            </select>
           </label>
         </p>
         <div class="auto__info_colors">
           <label>Доступные цвета
-            <input type="text" v-model="newColor" @keyup.enter="colors.push(newColor)">
+            <input type="text" v-model="newColor" @keyup.enter="onAddCarColor">
           </label>
-          <button @click="colors.push(newColor)">
+          <button @click="onAddCarColor">
             <img src="../../assets/images/plus_icon.svg" alt="plus">
           </button>
           <ul>
-            <li v-for="(item, index) in colors" :key="index">{{ item }}</li>
+            <li v-for="(item, index) in car.colors" :key="index">
+              {{ item }}
+              <v-btn icon class="d-inline-flex" @click="onDeleteCarColor(index)">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </li>
           </ul>
         </div>
         <div class="buttons">
@@ -77,7 +90,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'Car',
@@ -90,27 +103,30 @@ export default {
       modelCar: '',
       typeCar: '',
       newColor: '',
-      colors: ['Синий', 'Красный'],
       car: {
         name: '',
         description: '',
         priceMax: '',
         priceMin: '',
-        categoryId: {
-          name: '',
-        },
+        categoryId: '',
+        colors: [],
       },
     };
   },
   computed: {
+    ...mapState(['categories']),
+
     isEdit() {
       return !!this.carId;
     },
     carId() {
-      return this.$route.params.id;
+      return this.$route?.params?.id;
     },
     image() {
       return this.car?.thumbnail?.path || this.imagePreview;
+    },
+    filteredCategories() {
+      return this.categories.filter((i) => i.id);
     },
   },
   methods: {
@@ -119,7 +135,21 @@ export default {
       createCar: 'cars/createCar',
       deleteCar: 'cars/deleteCar',
       updateCar: 'cars/updateCar',
+      loadCategories: 'loadCategories',
     }),
+    onAddCarColor() {
+      this.car.colors.push(this.newColor);
+      this.newColor = '';
+    },
+    onDeleteCarColor(ind) {
+      this.car.colors.splice(ind, 1);
+    },
+    setCar(car) {
+      this.car = {
+        ...car,
+        categoryId: car.categoryId.id,
+      };
+    },
     fileUpload() {
       // eslint-disable-next-line prefer-destructuring
       this.file = this.$refs.file.files[0];
@@ -138,19 +168,28 @@ export default {
     async onSave() {
       const formData = new FormData();
       formData.append('name', this.car.name);
-      formData.append('categoryId', '5e25c99a099b810b946c5d63');
+      formData.append('categoryId', this.car.categoryId);
       formData.append('priceMin', this.car.priceMin);
       formData.append('priceMax', this.car.priceMax);
       formData.append('description', this.car.description);
+
+      if (this.car.colors?.length) {
+        this.car.colors.forEach((color, ind) => {
+          formData.append(`colors[${ind}]`, color);
+        });
+      } else {
+        formData.set('colors', []);
+      }
       if (this.file) {
         formData.append('thumbnail', this.file);
       }
       if (this.isEdit) {
-        this.car = await this.updateCar({
+        const car = await this.updateCar({
           id: this.carId,
           formData,
-        })
-          .then(() => this.success = true);
+        });
+        this.setCar(car);
+        this.success = true;
       } else {
         const id = await this.createCar(formData)
           .then(() => this.success = true);
@@ -173,7 +212,9 @@ export default {
 
   async created() {
     if (this.isEdit) {
-      this.car = await this.loadCar(this.carId);
+      const car = await this.loadCar(this.carId);
+      this.setCar(car);
+      this.loadCategories();
     }
   },
 };
@@ -201,6 +242,7 @@ export default {
       display: flex;
       color: white;
       font-weight: 300;
+
       img {
         margin-right: 10px;
       }
@@ -243,7 +285,7 @@ export default {
 
       label {
         width: 100%;
-        border-bottom: 1px solid #E5E5E5;
+        border-bottom: 1px solid #e5e5e5;
         padding-bottom: 10px;
         display: flex;
         justify-content: center;
@@ -270,12 +312,17 @@ export default {
         margin-bottom: 25px;
         margin-right: 5px;
 
+        select,
         input {
           padding: 10px;
           border: 1px solid #becad6;
           border-radius: 4px;
           height: 30px;
           outline: none;
+        }
+
+        select {
+          padding: 0 10px;
         }
       }
 
@@ -371,8 +418,10 @@ export default {
     .auto {
       &__info {
         width: 100%;
+
         &_model {
           flex-direction: column;
+
           label {
             input {
               width: 100%;
@@ -389,13 +438,16 @@ export default {
     h1 {
       font-size: 26px;
     }
+
     .auto {
       flex-direction: column;
+
       &__card {
         width: 100%;
         align-self: center;
         height: 300px;
       }
+
       &__info {
         margin: 0;
         align-self: center;
@@ -409,11 +461,14 @@ export default {
     h1 {
       font-size: 22px;
     }
+
     .auto {
       flex-direction: column;
+
       &__card {
         width: 250px;
       }
+
       &__info {
         &_colors {
           label {

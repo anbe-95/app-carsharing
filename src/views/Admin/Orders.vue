@@ -3,6 +3,38 @@
     <h1>Заказы</h1>
     <template>
       <div class="orders__items">
+        <div class="orders__filters mb-10">
+          <v-select
+            v-model="filters.status"
+            :items="orderStatuses"
+            placeholder="Статус"
+            item-text="name"
+            item-value="id"
+            outlined
+            hide-details
+            height="30px"
+            class="orders__filters-select"
+          />
+
+          <div class="d-flex">
+            <v-btn
+              color="#C4183C"
+              depressed
+              class="orders__filters-btn mr-5"
+              @click="onResetFilters"
+            >
+              Сбросить
+            </v-btn>
+            <v-btn
+              color="#007BFF"
+              depressed
+              class="orders__filters-btn"
+              @click="onApplyFilters"
+            >
+              Применить
+            </v-btn>
+          </div>
+        </div>
         <cs-order
           v-for="order of orders"
           :key="order.id"
@@ -40,36 +72,99 @@ export default {
   },
   data: () => ({
     loading: true,
-    page: 1,
     limit: 5,
+    filters: {
+      status: '',
+    },
   }),
   watch: {
-    page() {
+    orderParams() {
+      this.setFiltersFromQuery();
       this.getOrders();
     },
   },
   computed: {
-    ...mapState('orders', ['orders', 'total']),
+    ...mapState('orders', ['orders', 'total', 'orderStatuses']),
 
     pageCount() {
       return Math.floor(this.total / this.limit);
     },
+
+    page: {
+      get() {
+        return +this.$route.query.page || 1;
+      },
+      set(page) {
+        this.$router.push({
+          name: 'Orders',
+          query: {
+            ...this.filters,
+            page,
+          },
+        });
+      },
+    },
+
+    orderParams() {
+      const { status } = this.$route.query;
+
+      const params = {};
+
+      if (status) {
+        params.orderStatusId = status;
+      }
+
+      return params;
+    },
   },
+
   methods: {
     ...mapActions({
       loadOrders: 'orders/loadOrders',
     }),
 
+    setFiltersFromQuery() {
+      const { status } = this.$route.query;
+      this.filters = { status };
+    },
+
     async getOrders() {
       this.loading = true;
       await this.loadOrders({
+        ...this.orderParams,
         page: this.page,
         limit: this.limit,
       });
       this.loading = false;
     },
+
+    onResetFilters() {
+      this.filters = {
+        status: undefined,
+      };
+
+      this.$router.push({
+        name: 'Orders',
+        query: {
+          ...this.filters,
+          page: undefined,
+        },
+      });
+    },
+
+    onApplyFilters() {
+      this.$router.push({
+        name: 'Orders',
+        query: {
+          ...this.filters,
+          page: undefined,
+        },
+      });
+    },
   },
+
   created() {
+    this.setFiltersFromQuery();
     this.getOrders();
   },
 };
@@ -84,6 +179,25 @@ export default {
     color: #3d5170;
     font-weight: 400;
     margin-bottom: 30px;
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__filters-btn {
+    text-transform: none;
+    color: #fff;
+    letter-spacing: normal;
+    height: 30px;
+    width: 95px;
+  }
+
+  &__filters-select {
+    //height: 30px;
+    max-width: 200px;
   }
 
   &__loader {
@@ -115,7 +229,7 @@ export default {
     width: 1062px;
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid #EEEEEE;
+    border-top: 1px solid #eee;
 
     ::v-deep {
       .v-pagination__navigation,
@@ -143,7 +257,7 @@ export default {
       width: 1062px;
       margin-top: 20px;
       padding-top: 20px;
-      border-top: 1px solid #EEEEEE;
+      border-top: 1px solid #eee;
 
       ::v-deep {
         .v-pagination__navigation,
