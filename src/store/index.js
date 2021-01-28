@@ -46,7 +46,7 @@ export default new Vuex.Store({
 
     getPoints: (state) => (value) => (value
       ? state.points
-        .filter((item) => item.cityId.name === value)
+        .filter((item) => item.cityId?.name === value)
         .map((item) => ({
           name: item.address,
           id: item.id,

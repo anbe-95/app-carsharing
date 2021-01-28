@@ -406,7 +406,7 @@ export default {
         .delete {
           background: #cb3656;
           color: white;
-          margin-left: 320px;
+          margin-left: 12.5px;
         }
       }
     }
@@ -456,7 +456,7 @@ export default {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .car-setting {
     h1 {
       font-size: 22px;
@@ -466,7 +466,7 @@ export default {
       flex-direction: column;
 
       &__card {
-        width: 250px;
+        width: 100%;
       }
 
       &__info {
@@ -475,6 +475,22 @@ export default {
             input {
               width: 200px
             }
+          }
+        }
+
+        .buttons {
+          button {
+            width: 75px;
+            font-size: 10px;
+            outline: none;
+          }
+
+          .cancel {
+            margin-left: 7px;
+          }
+
+          .delete {
+            margin-left: 7px;
           }
         }
       }
