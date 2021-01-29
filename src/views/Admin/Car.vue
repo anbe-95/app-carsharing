@@ -433,8 +433,21 @@ export default {
   }
 }
 
+@media (max-width: 1200px) {
+  .car-setting {
+    .car-save {
+      margin-top: -20px;
+      margin-left: -20px;
+    }
+  }
+}
+
 @media (max-width: 900px) {
   .car-setting {
+    .car-save {
+      margin-top: -15px;
+      margin-left: -15px;
+    }
     h1 {
       font-size: 26px;
     }
@@ -452,6 +465,15 @@ export default {
         margin: 0;
         align-self: center;
       }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .car-setting {
+    .car-save {
+      margin-top: -10px;
+      margin-left: -10px;
     }
   }
 }
@@ -494,6 +516,15 @@ export default {
           }
         }
       }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .car-setting {
+    .car-save {
+      margin-top: -5px;
+      margin-left: -5px;
     }
   }
 }
